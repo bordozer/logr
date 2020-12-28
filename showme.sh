@@ -1,3 +1,3 @@
 #!/bin/bash
 
-java -jar build/libs/showme.jar
+java -jar build/libs/showme.jar "$@"

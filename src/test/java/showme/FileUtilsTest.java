@@ -54,7 +54,7 @@ class FileUtilsTest {
         final var dir = FileUtils.getMask(mask);
 
         // then
-        assertThat(dir).isEqualTo("*.*");
+        assertThat(dir).isEqualTo("*");
     }
 
     @Test
