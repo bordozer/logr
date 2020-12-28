@@ -1,0 +1,12 @@
+package showme;
+
+public class App {
+
+    public static void main(String[] args) {
+        if (args == null || args.length == 0) {
+            Logger.error("Define file mask");
+            System.exit(1);
+        }
+        final var mask = args[0];
+    }
+}
