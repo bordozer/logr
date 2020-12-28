@@ -28,7 +28,7 @@ public class App {
 
         final var highlights = buildHighlights(args);
         final var colorizedLines = LinesCollector.collect(files, highlights);
-        colorizedLines.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.GREEN_BOLD_BRIGHT, pair.getKey(), Logger.RESET, pair.getValue())));
+        colorizedLines.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.BLACK_BACKGROUND_BRIGHT, pair.getKey(), Logger.RESET, pair.getValue())));
 
         Logger.system(String.format("Total: %s line(s)", colorizedLines.size()));
     }
