@@ -12,7 +12,11 @@ public final class Colorizer {
     @CheckForNull
     public static String parseLine(final String line, final List<Highlight> highlights) {
         // line has to contain all keywords
-        if (highlights.stream().anyMatch(highlight -> !line.contains(highlight.getKeyword()))) {
+        if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !line.contains(highlight.getKeyword()))) {
+            return null;
+        }
+        // skip line if any fragment contains excluded
+        if (highlights.stream().anyMatch(highlight -> highlight.isExcluded() && line.contains(highlight.getKeyword()))) {
             return null;
         }
 
@@ -22,6 +26,8 @@ public final class Colorizer {
                     .map(fragment -> {
                         final var keyword = highlight.getKeyword();
                         final var color = highlight.getColor();
+                        final var isExcluded = highlight.isExcluded();
+
                         final var fragmentText = fragment.getText();
                         final var fragmentColor = fragment.getColor();
                         if (fragmentColor != null) {
@@ -50,7 +56,7 @@ public final class Colorizer {
                     .collect(Collectors.toList());
         }
 
-        // skip lines without any keywords
+        // skip lines without at least one keywords
         if (fragments.stream().allMatch(fragment -> fragment.getColor() == null)) {
             return null;
         }

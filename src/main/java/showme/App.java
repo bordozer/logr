@@ -26,7 +26,7 @@ public class App {
 
         final var highlights = buildHighlights(args);
         final var colorizedLines = LinesCollector.collect(files, highlights);
-        colorizedLines.forEach(Logger::info);
+        colorizedLines.forEach(pair -> Logger.info(String.format("%s %s", pair.getKey(), pair.getValue())));
 
         Logger.system(String.format("Total: %s line(s)", colorizedLines.size()));
     }
@@ -38,8 +38,18 @@ public class App {
         }
         final List<Highlight> highlights = new ArrayList<>();
         for (var i = 0; i < words.size(); i++) {
-            highlights.add(new Highlight(words.get(i), Color.values()[i]));
+            final var word = words.get(i);
+            final var isExcluded = word.startsWith("!");
+            highlights.add(new Highlight(getWord(word, isExcluded), Color.values()[i], isExcluded));
         }
+        log.info("highlights: {}", JsonUtils.toJson(highlights));
         return highlights;
+    }
+
+    private static String getWord(final String word, final boolean isExcluded) {
+        if (isExcluded) {
+            return word.substring(1);
+        }
+        return word;
     }
 }
