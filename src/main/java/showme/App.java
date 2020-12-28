@@ -1,6 +1,5 @@
 package showme;
 
-import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,28 +17,35 @@ public class App {
 
     @SneakyThrows
     public static void main(String[] args) {
-        //        log.info("args: {}", JsonUtils.toJson(args));
         if (args == null || args.length == 0) {
             Logger.error("Define file mask");
             System.exit(1);
         }
-        final var keywords = Arrays.copyOfRange(args, 1, args.length);
-        //        log.info("keywords: {}", JsonUtils.toJson(keywords));
+        final var words = Arrays.asList(Arrays.copyOfRange(args, 1, args.length));
+        final List<Keyword> keywords = new ArrayList<>();
+        for (int i = 0; i < words.size(); i++) {
+            keywords.add(new Keyword(words.get(i), Color.values()[i]));
+        }
 
         final var mask = args[0];
         final var files = FileUtils.getFiles(mask);
         final List<FileLine> list = files.stream()
-                .map(App::getCollect)
+                .map(file -> getCollect(file, keywords))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
         list.forEach(FileLineLogger::log);
     }
 
     @SneakyThrows
-    private static List<FileLine> getCollect(final File file) {
+    private static List<FileLine> getCollect(final File file, final List<Keyword> keywords) {
         return Files.lines(Path.of(file.toURI()))
                 .map(line -> {
-//                    log.info("line: {}", line);
+                    var coloredLine = line;
+                    for (int i = 0; i < keywords.size(); i++) {
+                        final var keyword = keywords.get(i);
+                        final var coloredKeywordText = String.format("%s%s%s", keyword.getColor().getValue(), keyword.getText(), Logger.RESET);
+                        coloredLine = coloredLine.replace(keyword.getText(), coloredKeywordText);
+                    }
                     final List<FileLineFragment> fragments = new ArrayList<>();
                     fragments.add(FileLineFragment.builder()
                             .text(line)
