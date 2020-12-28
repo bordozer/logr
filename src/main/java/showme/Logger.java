@@ -1,5 +1,8 @@
 package showme;
 
+import com.google.gson.Gson;
+import lombok.SneakyThrows;
+
 public class Logger {
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -10,6 +13,11 @@ public class Logger {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
+
+    @SneakyThrows
+    public static void info(final Object object) {
+        System.out.println(new Gson().toJson(object));
+    }
 
     public static void info(final String message) {
         System.out.println(message);

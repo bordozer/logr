@@ -14,6 +14,10 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
     implementation 'com.google.guava:guava:28.2-jre'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
@@ -23,9 +27,26 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.18.1'
 }
 
-application {
-    // Define the main class for the application.
+/*application {
     mainClassName = 'showme.App'
+}*/
+
+jar {
+    manifest {
+        attributes "Main-Class": "showme.App"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'showme.App'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 test {
