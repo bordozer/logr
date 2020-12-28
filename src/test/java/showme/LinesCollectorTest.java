@@ -22,5 +22,10 @@ class LinesCollectorTest {
 
         // then
         assertThat(list).hasSize(2);
+
+        final var string1 = list.get(0);
+        assertThat(string1).isEqualTo("one \u001B[1;33mtwo\u001B[0m three");
+        final var string2 = list.get(1);
+        assertThat(string2).isEqualTo("\u001B[1;33mtwo\u001B[0m five");
     }
 }
