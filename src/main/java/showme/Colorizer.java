@@ -42,6 +42,10 @@ public final class Colorizer {
                     }).flatMap(Collection::stream)
                     .collect(Collectors.toList());
         }
+
+        if (fragments.stream().allMatch(fragment -> fragment.getColor() == null)) {
+            return null;
+        }
         return fragments.stream()
                 .map(fragment -> {
                     if (fragment.getColor() == null) {
