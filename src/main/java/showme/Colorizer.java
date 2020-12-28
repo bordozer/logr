@@ -1,10 +1,5 @@
 package showme;
 
-import lombok.SneakyThrows;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,15 +8,7 @@ import java.util.stream.Collectors;
 
 public final class Colorizer {
 
-    @SneakyThrows
-    public static List<String> colorizeLines(final File file, final List<Highlight> highlights) {
-        return Files.lines(Path.of(file.toURI()))
-                .map(line -> parseLine(highlights, line))
-                .map(Colorizer::buildColorizedLine)
-                .collect(Collectors.toList());
-    }
-
-    private static List<LineFragment> parseLine(final List<Highlight> highlights, final String line) {
+    public static String parseLine(final String line, final List<Highlight> highlights) {
         List<LineFragment> fragments = Collections.singletonList(LineFragment.of(line));
         for (final Highlight highlight : highlights) {
             fragments = fragments.stream()
@@ -55,10 +42,6 @@ public final class Colorizer {
                     }).flatMap(Collection::stream)
                     .collect(Collectors.toList());
         }
-        return fragments;
-    }
-
-    private static String buildColorizedLine(final List<LineFragment> fragments) {
         return fragments.stream()
                 .map(fragment -> {
                     if (fragment.getColor() == null) {

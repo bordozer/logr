@@ -2,12 +2,19 @@ package showme;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static showme.Colorizer.parseLine;
 
 @Slf4j
 public class App {
@@ -24,10 +31,18 @@ public class App {
 
         final var highlights = buildHighlights(args);
         final List<String> list = files.stream()
-                .map(file -> Colorizer.colorizeLines(file, highlights))
+                .map(file -> processFile(highlights, file))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
         list.forEach(Logger::info);
+    }
+
+    @SneakyThrows
+    private static List<String> processFile(final List<Highlight> highlights, final File file) {
+        return Files.lines(Path.of(file.toURI()))
+                .map(line -> parseLine(line, highlights))
+                .filter(StringUtils::isNotEmpty)
+                .collect(Collectors.toList());
     }
 
     private static List<Highlight> buildHighlights(final String[] args) {
@@ -36,7 +51,6 @@ public class App {
         for (int i = 0; i < words.size(); i++) {
             highlights.add(new Highlight(words.get(i), Color.values()[i]));
         }
-        //        log.info("{}", JsonUtils.toJson(highlights));
         return highlights;
     }
 }
