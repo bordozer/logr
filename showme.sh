@@ -1,3 +1,5 @@
 #!/bin/bash
 
-java -jar build/libs/showme.jar "$@"
+pushd ~/bin || exit
+java -jar ./showme.jar "$@"
+
