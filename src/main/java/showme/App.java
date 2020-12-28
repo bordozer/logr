@@ -4,9 +4,11 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 
+import javax.annotation.CheckForNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class App {
@@ -26,7 +28,7 @@ public class App {
 
         final var highlights = buildHighlights(args);
         final var colorizedLines = LinesCollector.collect(files, highlights);
-        colorizedLines.forEach(pair -> Logger.info(String.format("%s %s", pair.getKey(), pair.getValue())));
+        colorizedLines.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.GREEN_BOLD_BRIGHT, pair.getKey(), Logger.RESET, pair.getValue())));
 
         Logger.system(String.format("Total: %s line(s)", colorizedLines.size()));
     }
@@ -36,13 +38,14 @@ public class App {
         if (CollectionUtils.isEmpty(words)) {
             throw new IllegalArgumentException("Please, define at least one keyword");
         }
+        final var counter = new AtomicInteger();
         final List<Highlight> highlights = new ArrayList<>();
-        for (var i = 0; i < words.size(); i++) {
-            final var word = words.get(i);
+        for (final String word : words) {
             final var isExcluded = word.startsWith("!");
-            highlights.add(new Highlight(getWord(word, isExcluded), Color.values()[i], isExcluded));
+            @CheckForNull final var color = isExcluded ? null : Color.values()[counter.getAndIncrement()];
+            highlights.add(new Highlight(getWord(word, isExcluded), color, isExcluded));
         }
-        log.info("highlights: {}", JsonUtils.toJson(highlights));
+//        log.info("highlights: {}", JsonUtils.toJson(highlights));
         return highlights;
     }
 
