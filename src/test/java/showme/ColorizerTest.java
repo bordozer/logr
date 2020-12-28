@@ -86,4 +86,36 @@ class ColorizerTest {
         assertThat(string2).isNotNull();
         assertThat(string2).isEqualTo("\u001B[0;35mthree\u001B[0m four");
     }
+
+    @Test
+    void shouldReturnColorizedIfFileContainsCrossedKeywords() {
+        // given
+        final var file = CommonUtils.readResourceFile("file-3.txt");
+        final List<Keyword> keywords = newArrayList(
+                new Keyword("one two", Color.CYAN),
+                new Keyword("one", Color.PURPLE)
+        );
+
+        // when
+        final var strings = Colorizer.colorizeLines(file, keywords);
+
+        // then
+        assertThat(strings).hasSize(4);
+
+        final var string1 = strings.get(0);
+        assertThat(string1).isNotNull();
+        assertThat(string1).isEqualTo("\u001B[0;35mone\u001B[0m three two");
+
+        final var string2 = strings.get(1);
+        assertThat(string2).isNotNull();
+        assertThat(string2).isEqualTo("\u001B[0;36m\u001B[0;35mone\u001B[0m two\u001B[0m \u001B[0;35mone\u001B[0m three two");
+
+        final var string3 = strings.get(2);
+        assertThat(string3).isNotNull();
+        assertThat(string3).isEqualTo("\u001B[0;35mone\u001B[0m three \u001B[0;36m\u001B[0;35mone\u001B[0m two\u001B[0m");
+
+        final var string4 = strings.get(3);
+        assertThat(string4).isNotNull();
+        assertThat(string4).isEqualTo("\u001B[0;35mone\u001B[0m three");
+    }
 }
