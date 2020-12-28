@@ -8,5 +8,6 @@ public class App {
             System.exit(1);
         }
         final var mask = args[0];
+        final var files = FileUtils.getFiles(mask);
     }
 }
