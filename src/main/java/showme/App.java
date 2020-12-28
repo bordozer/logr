@@ -39,5 +39,4 @@ public class App {
         //        log.info("{}", JsonUtils.toJson(keywords));
         return keywords;
     }
-
 }

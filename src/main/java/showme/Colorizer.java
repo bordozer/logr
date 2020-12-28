@@ -19,10 +19,12 @@ public final class Colorizer {
                     var coloredLine = line;
                     for (final Keyword keyword : keywords) {
                         final var coloredKeywordText = String.format("%s%s%s", keyword.getColor().getValue(), keyword.getText(), Logger.RESET);
-                        coloredLine = coloredLine.replace(keyword.getText(), coloredKeywordText);
-                        updates++;
+                        if (coloredLine.contains(keyword.getText())) {
+                            updates++;
+                            coloredLine = coloredLine.replace(keyword.getText(), coloredKeywordText);
+                        }
                     }
-                    if (updates < keywords.size()) {
+                    if (updates == 0) {
                         return null;
                     }
                     return coloredLine;
