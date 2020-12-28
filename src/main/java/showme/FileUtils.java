@@ -15,7 +15,7 @@ public final class FileUtils {
         final File dir = getDir(mask);
 //        log.info("dir: {}", dir);
         final var wildcard = getMask(mask);
-//        log.info("mask: {}", wildcard);
+//        log.info("wildcard: {}", wildcard);
         final FileFilter fileFilter = new WildcardFileFilter(wildcard);
         final var files = dir.listFiles(fileFilter);
         if (files == null || files.length == 0) {

@@ -46,24 +46,24 @@ public class Logger {
     public static final String WHITE_BACKGROUND = "\033[47m";  // WHITE
 
     // High Intensity
-    private static final String BLACK_BRIGHT = "\033[0;90m";  // BLACK
-    private static final String RED_BRIGHT = "\033[0;91m";    // RED
-    private static final String GREEN_BRIGHT = "\033[0;92m";  // GREEN
-    private static final String YELLOW_BRIGHT = "\033[0;93m"; // YELLOW
-    private static final String BLUE_BRIGHT = "\033[0;94m";   // BLUE
-    private static final String PURPLE_BRIGHT = "\033[0;95m"; // PURPLE
-    private static final String CYAN_BRIGHT = "\033[0;96m";   // CYAN
-    private static final String WHITE_BRIGHT = "\033[0;97m";  // WHITE
+    public static final String BLACK_BRIGHT = "\033[0;90m";  // BLACK
+    public static final String RED_BRIGHT = "\033[0;91m";    // RED
+    public static final String GREEN_BRIGHT = "\033[0;92m";  // GREEN
+    public static final String YELLOW_BRIGHT = "\033[0;93m"; // YELLOW
+    public static final String BLUE_BRIGHT = "\033[0;94m";   // BLUE
+    public static final String PURPLE_BRIGHT = "\033[0;95m"; // PURPLE
+    public static final String CYAN_BRIGHT = "\033[0;96m";   // CYAN
+    public static final String WHITE_BRIGHT = "\033[0;97m";  // WHITE
 
     // Bold High Intensity
-    private static final String BLACK_BOLD_BRIGHT = "\033[1;90m"; // BLACK
-    private static final String RED_BOLD_BRIGHT = "\033[1;91m";   // RED
-    private static final String GREEN_BOLD_BRIGHT = "\033[1;92m"; // GREEN
-    private static final String YELLOW_BOLD_BRIGHT = "\033[1;93m";// YELLOW
-    private static final String BLUE_BOLD_BRIGHT = "\033[1;94m";  // BLUE
-    private static final String PURPLE_BOLD_BRIGHT = "\033[1;95m";// PURPLE
-    private static final String CYAN_BOLD_BRIGHT = "\033[1;96m";  // CYAN
-    private static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
+    public static final String BLACK_BOLD_BRIGHT = "\033[1;90m"; // BLACK
+    public static final String RED_BOLD_BRIGHT = "\033[1;91m";   // RED
+    public static final String GREEN_BOLD_BRIGHT = "\033[1;92m"; // GREEN
+    public static final String YELLOW_BOLD_BRIGHT = "\033[1;93m";// YELLOW
+    public static final String BLUE_BOLD_BRIGHT = "\033[1;94m";  // BLUE
+    public static final String PURPLE_BOLD_BRIGHT = "\033[1;95m";// PURPLE
+    public static final String CYAN_BOLD_BRIGHT = "\033[1;96m";  // CYAN
+    public static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
 
     // High Intensity backgrounds
     private static final String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";// BLACK
@@ -77,6 +77,10 @@ public class Logger {
 
     public static void info(final String message) {
         System.out.println(message);
+    }
+
+    public static void system(final String message) {
+        System.out.println(String.format("%s%s%s", Logger.BLACK_BOLD_BRIGHT, message, Logger.RESET));
     }
 
     public static void error(final String message) {

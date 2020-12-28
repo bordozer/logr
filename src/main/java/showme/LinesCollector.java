@@ -23,6 +23,7 @@ public final class LinesCollector {
 
     @SneakyThrows
     private static List<String> processFile(final File file, final List<Highlight> highlights) {
+        Logger.system(file.getAbsolutePath());
         return Files.lines(Path.of(file.toURI()))
                 .map(line -> parseLine(line, highlights))
                 .filter(StringUtils::isNotEmpty)
