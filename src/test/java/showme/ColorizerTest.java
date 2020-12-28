@@ -20,17 +20,17 @@ class ColorizerTest {
                 Arguments.of(
                         "",
                         Collections.emptyList(),
-                        ""
+                        null
                 ),
                 Arguments.of(
                         "one two",
                         Collections.emptyList(),
-                        "one two"
+                        null
                 ),
                 Arguments.of(
                         "",
                         newArrayList(new Highlight("one two", Color.CYAN), new Highlight("one", Color.PURPLE)),
-                        ""
+                        null
                 ),
                 Arguments.of(
                         "one",
@@ -56,6 +56,11 @@ class ColorizerTest {
                         "one two one three two one one two",
                         newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN), new Highlight("three", Color.CYAN)),
                         "\u001B[1;36mone\u001B[0m \u001B[1;36mtwo\u001B[0m \u001B[1;36mone\u001B[0m \u001B[1;36mthree\u001B[0m \u001B[1;36mtwo\u001B[0m \u001B[1;36mone\u001B[0m \u001B[1;36mone\u001B[0m \u001B[1;36mtwo\u001B[0m"
+                ),
+                Arguments.of(
+                        "one",
+                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN)),
+                        null
                 )
         );
     }

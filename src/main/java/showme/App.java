@@ -2,6 +2,7 @@ package showme;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,9 @@ public class App {
 
     private static List<Highlight> buildHighlights(final String[] args) {
         final var words = Arrays.asList(Arrays.copyOfRange(args, 1, args.length));
+        if (CollectionUtils.isEmpty(words)) {
+            throw new IllegalArgumentException("Please, define at least one keyword");
+        }
         final List<Highlight> highlights = new ArrayList<>();
         for (var i = 0; i < words.size(); i++) {
             highlights.add(new Highlight(words.get(i), Color.values()[i]));

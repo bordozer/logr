@@ -1,5 +1,6 @@
 package showme;
 
+import javax.annotation.CheckForNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,7 +9,13 @@ import java.util.stream.Collectors;
 
 public final class Colorizer {
 
+    @CheckForNull
     public static String parseLine(final String line, final List<Highlight> highlights) {
+        // line has to contain all keywords
+        if (highlights.stream().anyMatch(highlight -> !line.contains(highlight.getKeyword()))) {
+            return null;
+        }
+
         List<LineFragment> fragments = Collections.singletonList(LineFragment.of(line));
         for (final Highlight highlight : highlights) {
             fragments = fragments.stream()
@@ -43,9 +50,11 @@ public final class Colorizer {
                     .collect(Collectors.toList());
         }
 
+        // skip lines without any keywords
         if (fragments.stream().allMatch(fragment -> fragment.getColor() == null)) {
             return null;
         }
+
         return fragments.stream()
                 .map(fragment -> {
                     if (fragment.getColor() == null) {
