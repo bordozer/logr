@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class Keyword {
-    private final String text;
+public class Highlight {
+    private final String keyword;
     private final Color color;
 }

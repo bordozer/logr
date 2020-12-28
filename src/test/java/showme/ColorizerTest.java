@@ -38,10 +38,10 @@ class ColorizerTest {
     void shouldReturnNothingIfFileDoesNotContainsKeywords() {
         // given
         final var file = CommonUtils.readResourceFile("file-1.txt");
-        final List<Keyword> keywords = Collections.singletonList(new Keyword("ten", Color.CYAN));
+        final List<Highlight> highlights = Collections.singletonList(new Highlight("ten", Color.CYAN));
 
         // when
-        final var strings = Colorizer.colorizeLines(file, keywords);
+        final var strings = Colorizer.colorizeLines(file, highlights);
 
         // then
         assertThat(strings).hasSize(0);
@@ -51,10 +51,10 @@ class ColorizerTest {
     void shouldReturnColorizedIfFileContainsKeyword() {
         // given
         final var file = CommonUtils.readResourceFile("file-1.txt");
-        final List<Keyword> keywords = Collections.singletonList(new Keyword("one", Color.CYAN));
+        final List<Highlight> highlights = Collections.singletonList(new Highlight("one", Color.CYAN));
 
         // when
-        final var strings = Colorizer.colorizeLines(file, keywords);
+        final var strings = Colorizer.colorizeLines(file, highlights);
 
         // then
         assertThat(strings).hasSize(1);
@@ -67,13 +67,13 @@ class ColorizerTest {
     void shouldReturnColorizedIfFileContainsKeywords() {
         // given
         final var file = CommonUtils.readResourceFile("file-2.txt");
-        final List<Keyword> keywords = newArrayList(
-                new Keyword("one", Color.CYAN),
-                new Keyword("three", Color.PURPLE)
+        final List<Highlight> highlights = newArrayList(
+                new Highlight("one", Color.CYAN),
+                new Highlight("three", Color.PURPLE)
         );
 
         // when
-        final var strings = Colorizer.colorizeLines(file, keywords);
+        final var strings = Colorizer.colorizeLines(file, highlights);
 
         // then
         assertThat(strings).hasSize(2);
@@ -91,13 +91,13 @@ class ColorizerTest {
     void shouldReturnColorizedIfFileContainsCrossedKeywords() {
         // given
         final var file = CommonUtils.readResourceFile("file-3.txt");
-        final List<Keyword> keywords = newArrayList(
-                new Keyword("one two", Color.CYAN),
-                new Keyword("one", Color.PURPLE)
+        final List<Highlight> highlights = newArrayList(
+                new Highlight("one two", Color.CYAN),
+                new Highlight("one", Color.PURPLE)
         );
 
         // when
-        final var strings = Colorizer.colorizeLines(file, keywords);
+        final var strings = Colorizer.colorizeLines(file, highlights);
 
         // then
         assertThat(strings).hasSize(4);

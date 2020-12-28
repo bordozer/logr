@@ -22,21 +22,21 @@ public class App {
         final var mask = args[0];
         final var files = FileUtils.getFiles(mask);
 
-        final var keywords = getKeywords(args);
+        final var highlights = buildHighlights(args);
         final List<String> list = files.stream()
-                .map(file -> Colorizer.colorizeLines(file, keywords))
+                .map(file -> Colorizer.colorizeLines(file, highlights))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
         list.forEach(Logger::info);
     }
 
-    private static List<Keyword> getKeywords(final String[] args) {
+    private static List<Highlight> buildHighlights(final String[] args) {
         final var words = Arrays.asList(Arrays.copyOfRange(args, 1, args.length));
-        final List<Keyword> keywords = new ArrayList<>();
+        final List<Highlight> highlights = new ArrayList<>();
         for (int i = 0; i < words.size(); i++) {
-            keywords.add(new Keyword(words.get(i), Color.values()[i]));
+            highlights.add(new Highlight(words.get(i), Color.values()[i]));
         }
-        //        log.info("{}", JsonUtils.toJson(keywords));
-        return keywords;
+        //        log.info("{}", JsonUtils.toJson(highlights));
+        return highlights;
     }
 }
