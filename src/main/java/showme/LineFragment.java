@@ -3,11 +3,13 @@ package showme;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import javax.annotation.CheckForNull;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
 public class LineFragment {
     private final String text;
     @CheckForNull
