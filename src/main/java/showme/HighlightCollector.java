@@ -17,6 +17,7 @@ public final class HighlightCollector {
         if (args.length < 2) {
             throw new IllegalArgumentException("Please, define at least one keyword as a second parameter");
         }
+        COUNTER.set(0);
         final List<Highlight> highlights = new ArrayList<>();
         final var parameters = Arrays.copyOfRange(args, 1, args.length);
         for (final String parameter : parameters) {

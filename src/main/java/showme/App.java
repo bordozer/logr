@@ -3,6 +3,8 @@ package showme;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collection;
+
 @Slf4j
 public class App {
 
@@ -27,8 +29,18 @@ public class App {
 
         final var highlights = HighlightCollector.buildHighlights(args);
         final var colorizedLines = LinesCollector.collect(files, highlights);
-        colorizedLines.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.BLACK_BACKGROUND_BRIGHT, pair.getKey(), Logger.RESET, pair.getValue())));
+        colorizedLines
+                .forEach(fl -> {
+                    final var file = fl.getFile();
+                    final var lines = fl.getLines();
+                    Logger.system(String.format("  %s (%s)", file.getAbsolutePath(), lines.size()));
+                    lines.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.BLACK_BACKGROUND_BRIGHT, pair.getKey(), Logger.RESET, pair.getValue())));
+                });
 
-        Logger.system(String.format("Total: %s line(s)", colorizedLines.size()));
+        final var total = colorizedLines.stream()
+                .map(FileLines::getLines)
+                .mapToLong(Collection::size)
+                .sum();
+        Logger.system(String.format("  Total: %s line(s)", total));
     }
 }
