@@ -1,7 +1,5 @@
 package showme;
 
-import org.apache.commons.collections4.CollectionUtils;
-
 import javax.annotation.CheckForNull;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,19 +11,29 @@ import static java.util.stream.Collectors.toSet;
 
 public final class HighlightCollector {
 
+    public static final AtomicInteger COUNTER = new AtomicInteger();
+
     public static List<Highlight> buildHighlights(final String[] args) {
         if (args.length < 2) {
-            throw new IllegalArgumentException("Please, define at least one keyword");
+            throw new IllegalArgumentException("Please, define at least one keyword as a second parameter");
         }
-        final var words = Arrays.copyOfRange(args, 1, args.length);
-        final var counter = new AtomicInteger();
         final List<Highlight> highlights = new ArrayList<>();
-        for (final String word : words) {
-            final var isExcluded = word.startsWith("!");
-            @CheckForNull final var color = isExcluded ? null : Color.values()[counter.getAndIncrement()];
-            highlights.add(new Highlight(getWord(word, isExcluded), color, isExcluded));
+        final var parameters = Arrays.copyOfRange(args, 1, args.length);
+        for (final String parameter : parameters) {
+            highlights.add(getHighlight(parameter));
         }
-        //        log.info("highlights: {}", JsonUtils.toJson(highlights));
+
+        validate(highlights);
+        return highlights;
+    }
+
+    private static Highlight getHighlight(final String parameter) {
+        final var isExcluded = parameter.startsWith("!");
+        @CheckForNull final var color = isExcluded ? null : Color.values()[COUNTER.getAndIncrement()];
+        return new Highlight(getKeyword(parameter, isExcluded), color, isExcluded);
+    }
+
+    private static void validate(final List<Highlight> highlights) {
         final var included = highlights.stream()
                 .filter(Highlight::isExcluded)
                 .collect(Collectors.toList());
@@ -35,18 +43,16 @@ public final class HighlightCollector {
 
         final var hasTheSameElement = included.stream()
                 .map(Highlight::getKeyword)
-                .anyMatch(
-                        excluded.stream()
-                                .map(Highlight::getKeyword)
-                                .collect(toSet())
-                                ::contains);
+                .anyMatch(excluded.stream()
+                        .map(Highlight::getKeyword)
+                        .collect(toSet())
+                        ::contains);
         if (hasTheSameElement) {
-            throw new IllegalArgumentException("Please, define at least one keyword");
+            throw new IllegalArgumentException("Please, included contains the same keyword as excluded");
         }
-        return highlights;
     }
 
-    private static String getWord(final String word, final boolean isExcluded) {
+    private static String getKeyword(final String word, final boolean isExcluded) {
         if (isExcluded) {
             return word.substring(1);
         }

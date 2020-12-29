@@ -13,14 +13,11 @@ public final class FileUtils {
 
     public static List<File> getFiles(final String mask) {
         final File dir = getDir(mask);
-//        log.info("dir: {}", dir);
         final var wildcard = getMask(mask);
-//        log.info("wildcard: {}", wildcard);
         final FileFilter fileFilter = new WildcardFileFilter(wildcard);
         final var files = dir.listFiles(fileFilter);
         if (files == null || files.length == 0) {
-            Logger.error("No file found by mask");
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("No file found by mask");
         }
         return Arrays.asList(files);
     }

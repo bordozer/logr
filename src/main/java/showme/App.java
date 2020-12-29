@@ -8,12 +8,19 @@ public class App {
 
     @SneakyThrows
     public static void main(String[] args) {
-        //        log.info("args: {}", JsonUtils.toJson(args));
-        if (args == null || args.length == 0) {
-            Logger.error("Define file mask");
+        try {
+            // log.info("args: {}", JsonUtils.toJson(args));
+            if (args == null || args.length == 0) {
+                throw new IllegalArgumentException("First parameter (file mask) is missed");
+            }
+            process(args);
+        } catch (final Throwable ex) {
+            Logger.error(ex.getMessage());
             System.exit(1);
         }
+    }
 
+    private static void process(final String[] args) {
         final var mask = args[0];
         final var files = FileUtils.getFiles(mask);
         Logger.system(String.format("Found %s file(s)", files.size()));
