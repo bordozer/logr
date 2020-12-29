@@ -33,6 +33,19 @@ class FileUtilsTest {
     }
 
     @Test
+    void shouldReturnDir4() {
+        // given
+        final var mask = "test";
+
+        // when
+        final var dir = FileUtils.getDir(mask);
+
+        // then
+        assertThat(dir.isDirectory()).isEqualTo(true);
+        assertThat(dir.getPath()).isEqualTo(".");
+    }
+
+    @Test
     void shouldReturnDir3() {
         // given
         final var mask = "/home/blu/temp/1/*.txt";
@@ -58,7 +71,7 @@ class FileUtilsTest {
     }
 
     @Test
-    void shouldReturnmask2() {
+    void shouldReturnMask2() {
         // given
         final var mask = "/home/blu/temp/1/*.txt";
 
@@ -70,7 +83,7 @@ class FileUtilsTest {
     }
 
     @Test
-    void shouldReturnmask3() {
+    void shouldReturnMask3() {
         // given
         final var mask = "/home/blu/temp/1/test";
 

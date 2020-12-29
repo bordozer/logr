@@ -15,7 +15,7 @@ public class App {
             }
             process(args);
         } catch (final Throwable ex) {
-            Logger.error(ex.getMessage());
+            Logger.error(ErrorUtils.getMessage(ex));
             System.exit(1);
         }
     }

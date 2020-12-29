@@ -12,9 +12,9 @@ import java.util.List;
 public final class FileUtils {
 
     public static List<File> getFiles(final String mask) {
-        final File dir = getDir(mask);
         final var wildcard = getMask(mask);
         final FileFilter fileFilter = new WildcardFileFilter(wildcard);
+        final File dir = getDir(mask);
         final var files = dir.listFiles(fileFilter);
         if (files == null || files.length == 0) {
             throw new IllegalArgumentException("No file found by mask");
@@ -27,7 +27,11 @@ public final class FileUtils {
         if (file.isDirectory()) {
             return file;
         }
-        return file.getParentFile();
+        final var dir = file.getParentFile();
+        if (dir != null) {
+            return dir;
+        }
+        return new File("./");
     }
 
     public static String getMask(final String mask) {
