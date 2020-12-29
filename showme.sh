@@ -1,5 +1,4 @@
 #!/bin/bash
 
-pushd ~/bin || exit
-java -jar ./showme.jar "$@"
+java -jar ~/bin/showme.jar "$@"
 

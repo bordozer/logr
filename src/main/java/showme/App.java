@@ -25,7 +25,6 @@ public class App {
     private static void process(final String[] args) {
         final var mask = args[0];
         final var files = FileUtils.getFiles(mask);
-        Logger.system(String.format("Found %s file(s)", files.size()));
 
         final var highlights = HighlightCollector.buildHighlights(args);
         final var colorizedLines = LinesCollector.collect(files, highlights);
@@ -41,6 +40,6 @@ public class App {
                 .map(FileLines::getLines)
                 .mapToLong(Collection::size)
                 .sum();
-        Logger.system(String.format("  Total: %s line(s)", total));
+        Logger.system(String.format("  Total: %s line(s) in %s file(s)", total, files.size()));
     }
 }
