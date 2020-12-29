@@ -22,7 +22,6 @@ public class App {
         }
 
         final var mask = args[0];
-//        log.info("mask: {}", mask);
         final var files = FileUtils.getFiles(mask);
         Logger.system(String.format("Found %s file(s)", files.size()));
 
@@ -36,7 +35,8 @@ public class App {
     private static List<Highlight> buildHighlights(final String[] args) {
         final var words = Arrays.asList(Arrays.copyOfRange(args, 1, args.length));
         if (CollectionUtils.isEmpty(words)) {
-            throw new IllegalArgumentException("Please, define at least one keyword");
+            Logger.error("Please, define at least one keyword");
+            System.exit(1);
         }
         final var counter = new AtomicInteger();
         final List<Highlight> highlights = new ArrayList<>();

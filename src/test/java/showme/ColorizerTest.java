@@ -65,6 +65,21 @@ class ColorizerTest {
                         "one two",
                         newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN, true)),
                         null
+                ),
+                Arguments.of(
+                        "one two",
+                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", Color.CYAN)),
+                        "\u001B[1;36mone\u001B[0m two"
+                ),
+                Arguments.of(
+                        "one",
+                        newArrayList(new Highlight("one", Color.CYAN)),
+                        "\u001B[1;36mone\u001B[0m"
+                ),
+                Arguments.of(
+                        "one",
+                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", Color.CYAN, true)),
+                        null
                 )
         );
     }
