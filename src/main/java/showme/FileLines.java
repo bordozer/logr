@@ -2,7 +2,7 @@ package showme;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.tuple.Pair;
+import lombok.ToString;
 
 import java.io.File;
 import java.util.List;
@@ -11,5 +11,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileLines {
     private final File file;
-    private final List<Pair<Integer, String>> lines;
+    private final List<FileRow> lines;
+
+    @Getter
+    @ToString
+    @RequiredArgsConstructor
+    public static class FileRow {
+        private final Integer rowNumber;
+        private final String line;
+    }
 }

@@ -26,7 +26,6 @@ public final class Colorizer {
                     .map(fragment -> {
                         final var keyword = highlight.getKeyword();
                         final var color = highlight.getColor();
-                        final var isExcluded = highlight.isExcluded();
 
                         final var fragmentText = fragment.getText();
                         final var fragmentColor = fragment.getColor();

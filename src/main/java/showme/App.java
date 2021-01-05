@@ -33,7 +33,7 @@ public class App {
                     final var file = fl.getFile();
                     final var lines = fl.getLines();
                     Logger.system(String.format("  %s (%s)", file.getAbsolutePath(), lines.size()));
-                    lines.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.BLACK_BACKGROUND_BRIGHT, pair.getKey(), Logger.RESET, pair.getValue())));
+                    lines.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.BLACK_BACKGROUND_BRIGHT, pair.getRowNumber(), Logger.RESET, pair.getLine())));
                 });
 
         final var total = colorizedLines.stream()

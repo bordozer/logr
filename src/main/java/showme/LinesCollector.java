@@ -2,7 +2,7 @@ package showme;
 
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
+import showme.FileLines.FileRow;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -24,10 +24,10 @@ public final class LinesCollector {
     @SneakyThrows
     private static FileLines processFile(final File file, final List<Highlight> highlights) {
         final var counter = new AtomicInteger(1);
-        final List<Pair<Integer, String>> lines = Files.lines(Path.of(file.toURI()))
+        final List<FileRow> lines = Files.lines(Path.of(file.toURI()))
                 .map(line -> parseLine(line, highlights))
-                .map(line -> Pair.of(counter.getAndIncrement(), line))
-                .filter(pair -> StringUtils.isNotEmpty(pair.getValue()))
+                .map(line -> new FileRow(counter.getAndIncrement(), line))
+                .filter(pair -> StringUtils.isNotEmpty(pair.getLine()))
                 .collect(Collectors.toList());
         return new FileLines(file, lines);
     }

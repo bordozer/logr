@@ -26,13 +26,13 @@ class LinesCollectorTest {
         final var lines = fl1.getLines();
         assertThat(lines).hasSize(2);
 
-        final var pair1 = lines.get(0);
-        assertThat(pair1.getKey()).isEqualTo(1);
-        assertThat(pair1.getValue()).isEqualTo("one \u001B[1;33mtwo\u001B[0m three");
+        final var row1 = lines.get(0);
+        assertThat(row1.getRowNumber()).isEqualTo(1);
+        assertThat(row1.getLine()).isEqualTo("one \u001B[1;33mtwo\u001B[0m three");
 
-        final var pair2 = lines.get(1);
-        assertThat(pair2.getKey()).isEqualTo(2);
-        assertThat(pair2.getValue()).isEqualTo("\u001B[1;33mtwo\u001B[0m five");
+        final var row2 = lines.get(1);
+        assertThat(row2.getRowNumber()).isEqualTo(2);
+        assertThat(row2.getLine()).isEqualTo("\u001B[1;33mtwo\u001B[0m five");
     }
 
     @Test
@@ -52,8 +52,8 @@ class LinesCollectorTest {
         final var lines = fl.getLines();
         assertThat(lines).hasSize(1);
 
-        final var pair = lines.get(0);
-        assertThat(pair.getKey()).isEqualTo(3);
-        assertThat(pair.getValue()).isEqualTo("\u001B[1;33mtwo\u001B[0m three");
+        final var row = lines.get(0);
+        assertThat(row.getRowNumber()).isEqualTo(3);
+        assertThat(row.getLine()).isEqualTo("\u001B[1;33mtwo\u001B[0m three");
     }
 }
