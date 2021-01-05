@@ -1,6 +1,7 @@
 package showme;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import javax.annotation.CheckForNull;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(of = {"text", "color"})
 @ToString
 public class LineFragment {
     private final String text;

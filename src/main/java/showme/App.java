@@ -31,9 +31,9 @@ public class App {
         colorizedLines
                 .forEach(fl -> {
                     final var file = fl.getFile();
-                    final var lines = fl.getLines();
-                    Logger.system(String.format("  %s (%s)", file.getAbsolutePath(), lines.size()));
-                    lines.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.BLACK_BACKGROUND_BRIGHT, pair.getOriginalRowNumber(), Logger.RESET, pair.getLine())));
+                    final var fileRows = fl.getLines();
+                    Logger.system(String.format("  %s (%s)", file.getAbsolutePath(), fileRows.size()));
+                    fileRows.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.BLACK_BACKGROUND_BRIGHT, pair.getOriginalRowNumber(), Logger.RESET, Colorizer.process(pair.getFragments()))));
                 });
 
         final var total = colorizedLines.stream()

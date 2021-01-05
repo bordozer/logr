@@ -1,99 +1,66 @@
 package showme;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ColorizerTest {
 
-    static Stream<Arguments> dataSupplier() {
-        return Stream.of(
-                Arguments.of(
-                        "",
-                        Collections.emptyList(),
-                        null
-                ),
-                Arguments.of(
-                        "one two",
-                        Collections.emptyList(),
-                        null
-                ),
-                Arguments.of(
-                        "",
-                        newArrayList(new Highlight("one two", Color.CYAN), new Highlight("one", Color.PURPLE)),
-                        null
-                ),
-                Arguments.of(
-                        "one",
-                        newArrayList(new Highlight("one", Color.CYAN)),
-                        "\u001B[1;36mone\u001B[0m"
-                ),
-                Arguments.of(
-                        "one two one three two one one two",
-                        newArrayList(new Highlight("one two", Color.CYAN), new Highlight("one", Color.PURPLE)),
-                        "\u001B[1;36mone two\u001B[0m \u001B[1;35mone\u001B[0m three two \u001B[1;35mone\u001B[0m \u001B[1;36mone two\u001B[0m"
-                ),
-                Arguments.of(
-                        "one two one three two one one two",
-                        newArrayList(new Highlight("one", Color.CYAN)),
-                        "\u001B[1;36mone\u001B[0m two \u001B[1;36mone\u001B[0m three two \u001B[1;36mone\u001B[0m \u001B[1;36mone\u001B[0m two"
-                ),
-                Arguments.of(
-                        "one two one three two one one two",
-                        newArrayList(new Highlight("one two one", Color.CYAN)),
-                        "\u001B[1;36mone two one\u001B[0m three two one one two"
-                ),
-                Arguments.of(
-                        "one two one three two one one two",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN), new Highlight("three", Color.CYAN)),
-                        "\u001B[1;36mone\u001B[0m \u001B[1;36mtwo\u001B[0m \u001B[1;36mone\u001B[0m \u001B[1;36mthree\u001B[0m \u001B[1;36mtwo\u001B[0m \u001B[1;36mone\u001B[0m \u001B[1;36mone\u001B[0m \u001B[1;36mtwo\u001B[0m"
-                ),
-                Arguments.of(
-                        "one",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN)),
-                        null
-                ),
-                Arguments.of(
-                        "one two",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN, true)),
-                        null
-                ),
-                Arguments.of(
-                        "one two",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", Color.CYAN)),
-                        "\u001B[1;36mone\u001B[0m two"
-                ),
-                Arguments.of(
-                        "one",
-                        newArrayList(new Highlight("one", Color.CYAN)),
-                        "\u001B[1;36mone\u001B[0m"
-                ),
-                Arguments.of(
-                        "one",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", Color.CYAN, true)),
-                        null
-                )
-        );
-    }
-
-    @DisplayName("Should colorize line")
-    @ParameterizedTest
-    @MethodSource("dataSupplier")
-    void shouldReturnColorized(final String line, final List<Highlight> highlights, final String expected) {
+    @Test
+    void shouldReturnEmptyString() {
         // given
+        final List<LineFragment> fragments = Collections.emptyList();
 
         // when
-        final var string = Colorizer.parseLine(line, highlights);
+        final var actual = Colorizer.process(fragments);
 
         // then
-        assertThat(string).isEqualTo(expected);
+        assertThat(actual).isEqualTo(StringUtils.EMPTY);
+    }
+
+    @Test
+    void shouldReturnColorized() {
+        // given
+        final List<LineFragment> fragments = new ArrayList<>();
+        fragments.add(LineFragment.of("one two").with(Color.CYAN));
+
+        // when
+        final var actual = Colorizer.process(fragments);
+
+        // then
+        assertThat(actual).isEqualTo("\u001B[1;36mone two\u001B[0m");
+    }
+
+    @Test
+    void shouldReturnColorized1() {
+        // given
+        final List<LineFragment> fragments = new ArrayList<>();
+        fragments.add(LineFragment.of("one two").with(Color.CYAN));
+        fragments.add(LineFragment.of("  three  "));
+        fragments.add(LineFragment.of("four").with(Color.GREEN));
+
+        // when
+        final var actual = Colorizer.process(fragments);
+
+        // then
+        assertThat(actual).isEqualTo("\u001B[1;36mone two\u001B[0m  three  \u001B[1;32mfour\u001B[0m");
+    }
+
+    @Test
+    void shouldReturnOriginalString() {
+        // given
+        final List<LineFragment> fragments = new ArrayList<>();
+        fragments.add(LineFragment.of("  three  "));
+
+        // when
+        final var actual = Colorizer.process(fragments);
+
+        // then
+        assertThat(actual).isEqualTo("  three  ");
     }
 }

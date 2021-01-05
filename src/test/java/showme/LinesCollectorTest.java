@@ -28,11 +28,18 @@ class LinesCollectorTest {
 
         final var row1 = lines.get(0);
         assertThat(row1.getOriginalRowNumber()).isEqualTo(1);
-        assertThat(row1.getLine()).isEqualTo("one \u001B[1;33mtwo\u001B[0m three");
+        final var fragments1 = row1.getFragments();
+        assertThat(fragments1).hasSize(3);
+        assertThat(fragments1.get(0)).isEqualTo(LineFragment.of("one "));
+        assertThat(fragments1.get(1)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
+        assertThat(fragments1.get(2)).isEqualTo(LineFragment.of(" three"));
 
         final var row2 = lines.get(1);
         assertThat(row2.getOriginalRowNumber()).isEqualTo(2);
-        assertThat(row2.getLine()).isEqualTo("\u001B[1;33mtwo\u001B[0m five");
+        final var fragments2 = row2.getFragments();
+        assertThat(fragments2).hasSize(2);
+        assertThat(fragments2.get(0)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
+        assertThat(fragments2.get(1)).isEqualTo(LineFragment.of(" five"));
     }
 
     @Test
@@ -54,6 +61,9 @@ class LinesCollectorTest {
 
         final var row = lines.get(0);
         assertThat(row.getOriginalRowNumber()).isEqualTo(3);
-        assertThat(row.getLine()).isEqualTo("\u001B[1;33mtwo\u001B[0m three");
+        final var fragments = row.getFragments();
+        assertThat(fragments).hasSize(2);
+        assertThat(fragments.get(0)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
+        assertThat(fragments.get(1)).isEqualTo(LineFragment.of(" three"));
     }
 }

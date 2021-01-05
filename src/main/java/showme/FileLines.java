@@ -18,6 +18,6 @@ public class FileLines {
     @RequiredArgsConstructor
     public static class FileRow {
         private final Integer originalRowNumber;
-        private final String line;
+        private final List<LineFragment> fragments;
     }
 }
