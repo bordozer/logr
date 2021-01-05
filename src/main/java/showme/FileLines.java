@@ -17,7 +17,7 @@ public class FileLines {
     @ToString
     @RequiredArgsConstructor
     public static class FileRow {
-        private final Integer rowNumber;
+        private final Integer originalRowNumber;
         private final String line;
     }
 }
