@@ -26,8 +26,8 @@ public final class LinesCollector {
         final var counter = new AtomicInteger(1);
         final List<Pair<Integer, String>> lines = Files.lines(Path.of(file.toURI()))
                 .map(line -> parseLine(line, highlights))
-                .filter(StringUtils::isNotEmpty) // remove lines without included
                 .map(line -> Pair.of(counter.getAndIncrement(), line))
+                .filter(pair -> StringUtils.isNotEmpty(pair.getValue()))
                 .collect(Collectors.toList());
         return new FileLines(file, lines);
     }
