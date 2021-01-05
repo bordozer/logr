@@ -1,0 +1,42 @@
+package showme;
+
+import java.io.File;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+
+import static showme.Colorizer.buildColorizedString;
+import static showme.StrUtils.formatRowNumber;
+
+public final class FileProcessor {
+
+    public static void process(final List<File> files, final List<Highlight> highlights) {
+        final var colorizedLines = LinesCollector.collect(files, highlights);
+        colorizedLines
+                .forEach(fl -> {
+                    final var file = fl.getFile();
+                    if (fl.getDirectory()) {
+                        Logger.fileInfo(String.format("  %s is a directory - skipped", file.getAbsolutePath()));
+                        return;
+                    }
+                    final var fileRows = fl.getLines();
+
+                    final var maxRowNumber = fileRows.stream().max(Comparator.comparing(FileContainer.FileRow::getOriginalRowNumber))
+                            .map(FileContainer.FileRow::getOriginalRowNumber)
+                            .orElse(0);
+
+                    Logger.fileInfo(String.format("  %s (%s)", file.getAbsolutePath(), fileRows.size()));
+                    fileRows.forEach(pair -> {
+                        final var rowNumber = formatRowNumber(pair.getOriginalRowNumber(), maxRowNumber);
+                        final var colorizedString = buildColorizedString(pair.getFragments());
+                        Logger.info(String.format("%s%s%s %s", Logger.ROW_NUMBER, rowNumber, Logger.RESET, colorizedString));
+                    });
+                });
+
+        final var total = colorizedLines.stream()
+                .map(FileContainer::getLines)
+                .mapToLong(Collection::size)
+                .sum();
+        Logger.summary(String.format("  Total: %s line(s) in %s file(s)", total, files.size()));
+    }
+}

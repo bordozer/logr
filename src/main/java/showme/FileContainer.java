@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class FileLines {
+public class FileContainer {
     @NonNull
     private final File file;
     @NonNull

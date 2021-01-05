@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public final class Colorizer {
 
-    public static String process(final List<LineFragment> fragments) {
+    public static String buildColorizedString(final List<LineFragment> fragments) {
         return fragments.stream()
                 .map(fragment -> {
                     if (fragment.getColor() == null) {

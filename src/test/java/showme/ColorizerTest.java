@@ -17,7 +17,7 @@ class ColorizerTest {
         final List<LineFragment> fragments = Collections.emptyList();
 
         // when
-        final var actual = Colorizer.process(fragments);
+        final var actual = Colorizer.buildColorizedString(fragments);
 
         // then
         assertThat(actual).isEqualTo(StringUtils.EMPTY);
@@ -30,7 +30,7 @@ class ColorizerTest {
         fragments.add(LineFragment.of("one two").with(Color.CYAN));
 
         // when
-        final var actual = Colorizer.process(fragments);
+        final var actual = Colorizer.buildColorizedString(fragments);
 
         // then
         assertThat(actual).isEqualTo("\u001B[1;36mone two\u001B[0m");
@@ -45,7 +45,7 @@ class ColorizerTest {
         fragments.add(LineFragment.of("four").with(Color.GREEN));
 
         // when
-        final var actual = Colorizer.process(fragments);
+        final var actual = Colorizer.buildColorizedString(fragments);
 
         // then
         assertThat(actual).isEqualTo("\u001B[1;36mone two\u001B[0m  three  \u001B[1;32mfour\u001B[0m");
@@ -58,7 +58,7 @@ class ColorizerTest {
         fragments.add(LineFragment.of("  three  "));
 
         // when
-        final var actual = Colorizer.process(fragments);
+        final var actual = Colorizer.buildColorizedString(fragments);
 
         // then
         assertThat(actual).isEqualTo("  three  ");

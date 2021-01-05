@@ -83,11 +83,11 @@ public class Logger {
         System.out.println(message);
     }
 
-    public static void system1(final String message) {
+    public static void summary(final String message) {
         System.out.println(String.format("%s%s%s", Logger.SYSTEM1, message, Logger.RESET));
     }
 
-    public static void system2(final String message) {
+    public static void fileInfo(final String message) {
         System.out.println(String.format("%s%s%s", Logger.SYSTEM2, message, Logger.RESET));
     }
 
