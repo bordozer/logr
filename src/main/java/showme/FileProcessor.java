@@ -1,5 +1,7 @@
 package showme;
 
+import lombok.RequiredArgsConstructor;
+
 import java.io.File;
 import java.util.Collection;
 import java.util.Comparator;
@@ -8,15 +10,18 @@ import java.util.List;
 import static showme.Colorizer.buildColorizedString;
 import static showme.StrUtils.formatRowNumber;
 
+@RequiredArgsConstructor
 public final class FileProcessor {
 
-    public static void process(final List<File> files, final List<Highlight> highlights) {
+    private final Logger logger;
+
+    public void process(final List<File> files, final List<Highlight> highlights) {
         final var colorizedLines = LinesCollector.collect(files, highlights);
         colorizedLines
                 .forEach(fl -> {
                     final var file = fl.getFile();
                     if (fl.getDirectory()) {
-                        Logger.fileInfo(String.format("  %s is a directory - skipped", file.getAbsolutePath()));
+                        logger.fileInfo(String.format("  %s is a directory - skipped", file.getAbsolutePath()));
                         return;
                     }
                     final var fileRows = fl.getLines();
@@ -25,11 +30,11 @@ public final class FileProcessor {
                             .map(FileContainer.FileRow::getOriginalRowNumber)
                             .orElse(0);
 
-                    Logger.fileInfo(String.format("  %s (%s)", file.getAbsolutePath(), fileRows.size()));
+                    logger.fileInfo(String.format("  %s (%s)", file.getAbsolutePath(), fileRows.size()));
                     fileRows.forEach(pair -> {
                         final var rowNumber = formatRowNumber(pair.getOriginalRowNumber(), maxRowNumber);
                         final var colorizedString = buildColorizedString(pair.getFragments());
-                        Logger.info(String.format("%s%s%s %s", Logger.ROW_NUMBER, rowNumber, Logger.RESET, colorizedString));
+                        logger.info(String.format("%s%s%s %s", Logger.ROW_NUMBER, rowNumber, Logger.RESET, colorizedString));
                     });
                 });
 
@@ -37,6 +42,6 @@ public final class FileProcessor {
                 .map(FileContainer::getLines)
                 .mapToLong(Collection::size)
                 .sum();
-        Logger.summary(String.format("  Total: %s line(s) in %s file(s)", total, files.size()));
+        logger.summary(String.format("  Total: %s line(s) in %s file(s)", total, files.size()));
     }
 }

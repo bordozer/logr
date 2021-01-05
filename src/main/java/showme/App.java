@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class App {
 
+    private static final Logger LOGGER = new Logger();
+
     @SneakyThrows
     public static void main(String[] args) {
         try {
@@ -16,7 +18,7 @@ public class App {
             process(args);
         } catch (final Throwable ex) {
             //            Logger.error(ErrorUtils.getMessage(ex));
-            Logger.error(ErrorUtils.getStackTrace(ex));
+            LOGGER.error(ErrorUtils.getStackTrace(ex));
             System.exit(1);
         }
     }
@@ -26,6 +28,6 @@ public class App {
         final var files = FileUtils.getFiles(mask);
 
         final var highlights = HighlightCollector.buildHighlights(args);
-        FileProcessor.process(files, highlights);
+        new FileProcessor(LOGGER).process(files, highlights);
     }
 }

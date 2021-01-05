@@ -79,19 +79,19 @@ public class Logger {
     public static final String SYSTEM2 = "\033[38;5;110m";
     public static final String ROW_NUMBER = "\033[38;5;3m";
 
-    public static void info(final String message) {
+    public void info(final String message) {
         System.out.println(message);
     }
 
-    public static void summary(final String message) {
+    public void summary(final String message) {
         System.out.println(String.format("%s%s%s", Logger.SYSTEM1, message, Logger.RESET));
     }
 
-    public static void fileInfo(final String message) {
+    public void fileInfo(final String message) {
         System.out.println(String.format("%s%s%s", Logger.SYSTEM2, message, Logger.RESET));
     }
 
-    public static void error(final String message) {
+    public void error(final String message) {
         System.out.println(String.format("%s%s%s", RED, message, RESET));
     }
 }
