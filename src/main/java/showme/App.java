@@ -3,7 +3,10 @@ package showme;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 @Slf4j
 public class App {
@@ -17,7 +20,7 @@ public class App {
             }
             process(args);
         } catch (final Throwable ex) {
-//            Logger.error(ErrorUtils.getMessage(ex));
+            //            Logger.error(ErrorUtils.getMessage(ex));
             Logger.error(ErrorUtils.getStackTrace(ex));
             System.exit(1);
         }
@@ -28,6 +31,10 @@ public class App {
         final var files = FileUtils.getFiles(mask);
 
         final var highlights = HighlightCollector.buildHighlights(args);
+        process(files, highlights);
+    }
+
+    private static void process(final List<File> files, final List<Highlight> highlights) {
         final var colorizedLines = LinesCollector.collect(files, highlights);
         colorizedLines
                 .forEach(fl -> {
@@ -37,8 +44,13 @@ public class App {
                         return;
                     }
                     final var fileRows = fl.getLines();
+
+                    final var maxRowNumber = fileRows.stream().max(Comparator.comparing(FileLines.FileRow::getOriginalRowNumber))
+                            .map(FileLines.FileRow::getOriginalRowNumber)
+                            .orElse(0);
+
                     Logger.system2(String.format("  %s (%s)", file.getAbsolutePath(), fileRows.size()));
-                    fileRows.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.ROW_NUMBER, pair.getOriginalRowNumber(), Logger.RESET, Colorizer.process(pair.getFragments()))));
+                    fileRows.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.ROW_NUMBER, StrUtils.formatRowNumber(pair.getOriginalRowNumber(), maxRowNumber), Logger.RESET, Colorizer.process(pair.getFragments()))));
                 });
 
         final var total = colorizedLines.stream()
@@ -47,4 +59,5 @@ public class App {
                 .sum();
         Logger.system1(String.format("  Total: %s line(s) in %s file(s)", total, files.size()));
     }
+
 }
