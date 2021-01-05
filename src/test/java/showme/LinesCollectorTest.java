@@ -53,7 +53,7 @@ class LinesCollectorTest {
         assertThat(lines).hasSize(1);
 
         final var pair = lines.get(0);
-        assertThat(pair.getKey()).isEqualTo(3);
+        assertThat(pair.getKey()).isEqualTo(1);
         assertThat(pair.getValue()).isEqualTo("\u001B[1;33mtwo\u001B[0m three");
     }
 }
