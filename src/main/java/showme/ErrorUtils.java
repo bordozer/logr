@@ -22,7 +22,7 @@ public final class ErrorUtils {
         return exception;
     }
 
-    private static String getStackTrace(final Throwable ex) {
+    public static String getStackTrace(final Throwable ex) {
         return ExceptionUtils.getStackTrace(ex);
     }
 }

@@ -75,12 +75,20 @@ public class Logger {
     public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
     public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
 
+    public static final String SYSTEM1 = "\033[38;5;111m";
+    public static final String SYSTEM2 = "\033[38;5;110m";
+    public static final String ROW_NUMBER = "\033[38;5;3m";
+
     public static void info(final String message) {
         System.out.println(message);
     }
 
-    public static void system(final String message) {
-        System.out.println(String.format("%s%s%s", Logger.BLACK_BOLD_BRIGHT, message, Logger.RESET));
+    public static void system1(final String message) {
+        System.out.println(String.format("%s%s%s", Logger.SYSTEM1, message, Logger.RESET));
+    }
+
+    public static void system2(final String message) {
+        System.out.println(String.format("%s%s%s", Logger.SYSTEM2, message, Logger.RESET));
     }
 
     public static void error(final String message) {

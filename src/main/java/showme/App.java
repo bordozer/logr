@@ -17,7 +17,8 @@ public class App {
             }
             process(args);
         } catch (final Throwable ex) {
-            Logger.error(ErrorUtils.getMessage(ex));
+//            Logger.error(ErrorUtils.getMessage(ex));
+            Logger.error(ErrorUtils.getStackTrace(ex));
             System.exit(1);
         }
     }
@@ -31,15 +32,19 @@ public class App {
         colorizedLines
                 .forEach(fl -> {
                     final var file = fl.getFile();
+                    if (fl.getDirectory()) {
+                        Logger.system2(String.format("  %s is a directory, skipped", file.getAbsolutePath()));
+                        return;
+                    }
                     final var fileRows = fl.getLines();
-                    Logger.system(String.format("  %s (%s)", file.getAbsolutePath(), fileRows.size()));
-                    fileRows.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.BLACK_BACKGROUND_BRIGHT, pair.getOriginalRowNumber(), Logger.RESET, Colorizer.process(pair.getFragments()))));
+                    Logger.system2(String.format("  %s (%s)", file.getAbsolutePath(), fileRows.size()));
+                    fileRows.forEach(pair -> Logger.info(String.format("%s%s%s %s", Logger.ROW_NUMBER, pair.getOriginalRowNumber(), Logger.RESET, Colorizer.process(pair.getFragments()))));
                 });
 
         final var total = colorizedLines.stream()
                 .map(FileLines::getLines)
                 .mapToLong(Collection::size)
                 .sum();
-        Logger.system(String.format("  Total: %s line(s) in %s file(s)", total, files.size()));
+        Logger.system1(String.format("  Total: %s line(s) in %s file(s)", total, files.size()));
     }
 }
