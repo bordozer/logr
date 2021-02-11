@@ -26,13 +26,9 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.18.1'
 }
 
-/*application {
-    mainClassName = 'showme.App'
-}*/
-
 jar {
     manifest {
-        attributes "Main-Class": "showme.App"
+        attributes "Main-Class": "logr.App"
     }
 
     from {
@@ -42,7 +38,7 @@ jar {
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': 'showme.App'
+        attributes 'Main-Class': 'logr.App'
     }
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar

@@ -1,8 +1,8 @@
-package showme;
+package logr;
 
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
-import showme.FileContainer.FileRow;
+import logr.FileContainer.FileRow;
 
 import java.io.File;
 import java.nio.file.Files;

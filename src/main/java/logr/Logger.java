@@ -1,4 +1,4 @@
-package showme;
+package logr;
 
 public class Logger {
 

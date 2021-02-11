@@ -1,4 +1,4 @@
-package showme;
+package logr;
 
 import java.util.List;
 import java.util.stream.Collectors;

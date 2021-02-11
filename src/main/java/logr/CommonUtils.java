@@ -1,4 +1,4 @@
-package showme;
+package logr;
 
 import com.google.common.io.Resources;
 import lombok.SneakyThrows;

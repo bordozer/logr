@@ -1,4 +1,4 @@
-package showme;
+package logr;
 
 import org.junit.jupiter.api.Test;
 

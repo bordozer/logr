@@ -1,4 +1,4 @@
-package showme;
+package logr;
 
 import com.google.gson.Gson;
 import lombok.SneakyThrows;

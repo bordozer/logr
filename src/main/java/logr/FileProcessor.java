@@ -1,4 +1,4 @@
-package showme;
+package logr;
 
 import lombok.RequiredArgsConstructor;
 
@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-import static showme.Colorizer.buildColorizedString;
-import static showme.StrUtils.formatRowNumber;
+import static logr.Colorizer.buildColorizedString;
+import static logr.StrUtils.formatRowNumber;
 
 @RequiredArgsConstructor
 public final class FileProcessor {

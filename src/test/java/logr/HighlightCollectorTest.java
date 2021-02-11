@@ -1,10 +1,10 @@
-package showme;
+package logr;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static showme.Color.PURPLE_BOLD_BRIGHT;
+import static logr.Color.PURPLE_BOLD_BRIGHT;
 
 class HighlightCollectorTest {
 

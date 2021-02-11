@@ -1,4 +1,4 @@
-package showme;
+package logr;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,6 @@ class FileProcessorTest {
         verify(logger, times(11)).info(anyString());
         verify(logger, times(1)).summary(anyString());
 
-        verify(logger).fileInfo("  /home/blu/dev/src/bordozer/showme/build/resources/test/file-5.txt (11)");
         verify(logger).info("\u001B[38;5;3m.1\u001B[0m one \u001B[1;34mtwo\u001B[0m");
         verify(logger).info("\u001B[38;5;3m.2\u001B[0m \u001B[1;34mtwo\u001B[0m three \u001B[1;34mtwo\u001B[0m");
         verify(logger).info("\u001B[38;5;3m.3\u001B[0m three four \u001B[1;34mtwo\u001B[0m");

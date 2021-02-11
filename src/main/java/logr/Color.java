@@ -1,4 +1,4 @@
-package showme;
+package logr;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

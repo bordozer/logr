@@ -1,4 +1,4 @@
-# Show me
+# LOGR - log analyzer utility
 A small command line utility to search and highlight a set of keywords in a text file 
 
 ## Build jar
@@ -7,8 +7,8 @@ A small command line utility to search and highlight a set of keywords in a text
 ```
 ## Install
 ```shell script
-cp ./showme.sh ~/bin
-cp ./build/libs/showme.jar ~/bin
+cp ./build/libs/logr.jar ~/bin
+cp ./logr ~/bin
 ```
 
 ## Usage examples
@@ -31,30 +31,30 @@ EOT
 ```
 Show all *test1.txt* lines contains *one*
 ```shell script
-showme.sh "/home/blu/temp/1/test1.txt" one
+logr "/home/blu/temp/1/test1.txt" one
 ```
-![Screenshots](https://user-images.githubusercontent.com/11032280/103278223-ab8cf180-49d3-11eb-9227-1db0e0f0bb08.png?raw=true)
+![Screenshots](https://user-images.githubusercontent.com/11032280/107631762-39642980-6c6e-11eb-87de-96a45b33b8bc.png?raw=true)
 
 Show all *test1.txt* lines contains *one* and *two*
 ```shell script
-showme.sh "/home/blu/temp/1/test1.txt" one two
+logr "/home/blu/temp/1/test1.txt" one two
 ```
-![Screenshots](https://user-images.githubusercontent.com/11032280/103278250-bc3d6780-49d3-11eb-8a82-c57e77c4c3a0.png?raw=true)
+![Screenshots](https://user-images.githubusercontent.com/11032280/107631767-3bc68380-6c6e-11eb-9862-a50efcb1ae7a.png?raw=true)
 
 Show all *test1.txt* lines contains *one two*
 ```shell script
-showme.sh "/home/blu/temp/1/test1.txt" "one two"
+logr "/home/blu/temp/1/test1.txt" "one two"
 ```
-![Screenshots](https://user-images.githubusercontent.com/11032280/103278288-cd867400-49d3-11eb-8592-e8ca2608500e.png?raw=true)
+![Screenshots](https://user-images.githubusercontent.com/11032280/107631773-3e28dd80-6c6e-11eb-9403-d2726ee5dfdb.png?raw=true)
 
 Show all *test1.txt* lines contains *one* but does not contain *two*
 ```shell script
-showme.sh "/home/blu/temp/1/test1.txt" one \!two
+logr "/home/blu/temp/1/test1.txt" one \!two
 ```
-![Screenshots](https://user-images.githubusercontent.com/11032280/103278308-dc6d2680-49d3-11eb-9220-d76945240f59.png?raw=true)
+![Screenshots](https://user-images.githubusercontent.com/11032280/107631781-408b3780-6c6e-11eb-980b-3143d2b760d6.png?raw=true)
 
 Show all *test.txt* and *test1.txt* lines contains *one*
 ```shell script
-showme.sh "/home/blu/temp/1/*.txt" one
+logr "/home/blu/temp/1/*.txt" one
 ```
-![Screenshots](https://user-images.githubusercontent.com/11032280/103278332-e98a1580-49d3-11eb-8956-f0844ff84e2d.png?raw=true)
+![Screenshots](https://user-images.githubusercontent.com/11032280/107631794-42ed9180-6c6e-11eb-9ea6-5400f24f0ca9.png?raw=true)
