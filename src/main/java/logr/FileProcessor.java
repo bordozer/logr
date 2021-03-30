@@ -34,7 +34,7 @@ public final class FileProcessor {
                     fileRows.forEach(pair -> {
                         final var rowNumber = formatRowNumber(pair.getOriginalRowNumber(), maxRowNumber);
                         final var colorizedString = buildColorizedString(pair.getFragments());
-                        logger.info(String.format("%s%s%s %s", Logger.ROW_NUMBER, rowNumber, Logger.RESET, colorizedString));
+                        logger.info(String.format("%s%s%s %s\n", Logger.ROW_NUMBER, rowNumber, Logger.RESET, colorizedString));
                     });
                 });
 
