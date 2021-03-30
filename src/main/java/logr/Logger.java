@@ -77,7 +77,7 @@ public class Logger {
 
     public static final String SYSTEM1 = "\033[38;5;111m";
     public static final String SYSTEM2 = "\033[38;5;110m";
-    public static final String ROW_NUMBER = "\033[38;125;7m";
+    public static final String ROW_NUMBER = "\033[48;5;96m";
 
     public void info(final String message) {
         System.out.println(message);
