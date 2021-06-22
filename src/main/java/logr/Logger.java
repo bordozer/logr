@@ -84,14 +84,14 @@ public class Logger {
     }
 
     public void summary(final String message) {
-        System.out.println(String.format("%s%s%s", Logger.SYSTEM1, message, Logger.RESET));
+        System.out.printf("%s%s%s%n", Logger.SYSTEM1, message, Logger.RESET);
     }
 
     public void fileInfo(final String message) {
-        System.out.println(String.format("%s%s%s", Logger.SYSTEM2, message, Logger.RESET));
+        System.out.printf("%s%s%s%n", Logger.SYSTEM2, message, Logger.RESET);
     }
 
     public void error(final String message) {
-        System.out.println(String.format("%s%s%s", RED, message, RESET));
+        System.out.printf("%s%s%s%n", RED, message, RESET);
     }
 }

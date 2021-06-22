@@ -78,7 +78,6 @@ class FragmentatorTest {
                 Arguments.of(
                         "one two one three two one one two",
                         newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN), new Highlight("three", Color.CYAN)),
-                        //                        "\u001B[1;36mone\u001B[0m \u001B[1;36mtwo\u001B[0m \u001B[1;36mone\u001B[0m \u001B[1;36mthree\u001B[0m \u001B[1;36mtwo\u001B[0m \u001B[1;36mone\u001B[0m \u001B[1;36mone\u001B[0m \u001B[1;36mtwo\u001B[0m"
                         new LineFragment[]{
                                 LineFragment.of("one").with(Color.CYAN),
                                 LineFragment.of(" "),
@@ -110,7 +109,6 @@ class FragmentatorTest {
                 Arguments.of(
                         "one two",
                         newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", Color.CYAN)),
-                        //                        "\u001B[1;36mone\u001B[0m two"
                         new LineFragment[]{
                                 LineFragment.of("one").with(Color.CYAN),
                                 LineFragment.of(" two")
@@ -119,7 +117,6 @@ class FragmentatorTest {
                 Arguments.of(
                         "one",
                         newArrayList(new Highlight("one", Color.CYAN)),
-                        //                        "\u001B[1;36mone\u001B[0m"
                         new LineFragment[]{
                                 LineFragment.of("one").with(Color.CYAN)
                         }

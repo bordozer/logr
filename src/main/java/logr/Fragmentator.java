@@ -42,15 +42,15 @@ public final class Fragmentator {
                         }
 
                         final List<LineFragment> subFragments = new ArrayList<>();
-                        final String[] subparts = fragmentText.split(keyword);
+                        final String[] subParts = fragmentText.split(keyword);
                         int n = 0;
-                        for (final String subpart : subparts) {
+                        for (final String subpart : subParts) {
                             subFragments.add(LineFragment.of(subpart));
-                            if (n++ < subparts.length - 1) {
+                            if (n++ < subParts.length - 1) {
                                 subFragments.add(LineFragment.of(keyword).with(color));
                             }
                         }
-                        if (fragmentText.substring(fragmentText.length() - keyword.length()).equals(keyword)) {
+                        if (fragmentText.endsWith(keyword)) {
                             subFragments.add(LineFragment.of(keyword).with(color));
                         }
 
