@@ -1,11 +1,10 @@
 package logr;
 
 import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public final class RegexUtils {
 
     @Getter
     @RequiredArgsConstructor
-    @EqualsAndHashCode(of = {"text", "keyword"})
+    @ToString
     public static class Part {
         private final String text;
         private final boolean keyword;

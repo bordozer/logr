@@ -46,6 +46,9 @@ public final class Fragmentator {
                         if (fragmentColor != null) {
                             return Collections.singletonList(fragment);
                         }
+                        if (!Pattern.compile(keyword).matcher(fragmentText).matches()) {
+                            return Collections.singletonList(fragment);
+                        }
 
                         final var parts = RegexUtils.split(fragmentText, keyword);
                         return parts.stream()
@@ -74,8 +77,8 @@ public final class Fragmentator {
                     }).flatMap(Collection::stream)
                     .collect(Collectors.toList());
         }
-        return fragments.stream()
+        return fragments/*.stream()
                 .filter(frag -> !StringUtils.EMPTY.equals(frag.getText()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())*/;
     }
 }
