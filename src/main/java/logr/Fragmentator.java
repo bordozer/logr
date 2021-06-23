@@ -42,11 +42,18 @@ public final class Fragmentator {
                         final var color = highlight.getColor();
 
                         final var fragmentText = fragment.getText();
+                        if (StringUtils.isEmpty(fragmentText)) {
+                            return Collections.<LineFragment>emptyList();
+                        }
+
                         final var fragmentColor = fragment.getColor();
                         if (fragmentColor != null) {
+                            // this fragment is previous keyword
                             return Collections.singletonList(fragment);
                         }
-                        if (StringUtils.isNotEmpty(fragmentText) && !Pattern.compile(keyword).matcher(fragmentText).matches()) {
+
+                        if (!Pattern.compile(keyword).matcher(fragmentText).matches()) {
+                            // this fragment does not contain keyword
                             return Collections.singletonList(fragment);
                         }
 
@@ -54,31 +61,9 @@ public final class Fragmentator {
                         return parts.stream()
                                 .map(part -> part.isKeyword() ? LineFragment.of(part.getText()).with(color) : LineFragment.of(part.getText()))
                                 .collect(Collectors.toList());
-
-                        /*
-                        if (!Pattern.compile(keyword).matcher(fragmentText).matches()) {
-                            return Collections.singletonList(fragment);
-                        }
-
-                        final List<LineFragment> subFragments = new ArrayList<>();
-                        final String[] subParts = RegexUtils.split(fragmentText, keyword).toArray(new String[0]);
-                        int n = 0;
-                        for (final String subpart : subParts) {
-                            subFragments.add(LineFragment.of(subpart));
-                            if (n++ < subParts.length - 1) {
-                                subFragments.add(LineFragment.of(keyword).with(color));
-                            }
-                        }
-                        if (Pattern.compile(keyword).matcher(fragmentText).matches()) {
-                            subFragments.add(LineFragment.of(fragmentText).with(color));
-                        }
-
-                        return subFragments;*/
                     }).flatMap(Collection::stream)
                     .collect(Collectors.toList());
         }
-        return fragments/*.stream()
-                .filter(frag -> !StringUtils.EMPTY.equals(frag.getText()))
-                .collect(Collectors.toList())*/;
+        return fragments;
     }
 }
