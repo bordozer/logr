@@ -19,6 +19,11 @@ public final class Fragmentator {
         if (highlights.stream().anyMatch(highlight -> highlight.isExcluded() && line.contains(highlight.getKeyword()))) {
             return Collections.emptyList();
         }
+        for (final Highlight highlight : highlights) {
+            if (!Pattern.compile(highlight.getKeyword()).matcher(line).find()) {
+                return Collections.emptyList();
+            }
+        }
 
         List<LineFragment> fragments = Collections.singletonList(LineFragment.of(line));
         for (final Highlight highlight : highlights) {
