@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public final class Fragmentator {
@@ -16,7 +17,7 @@ public final class Fragmentator {
             return Collections.emptyList();
         }
         // line should contains all included
-        if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !line.contains(highlight.getKeyword()))) {
+        if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !Pattern.compile(highlight.getKeyword()).matcher(line).matches())) {
             return Collections.emptyList();
         }
         // line should not contain excluded
@@ -37,12 +38,12 @@ public final class Fragmentator {
                             return Collections.singletonList(fragment);
                         }
 
-                        if (!fragmentText.contains(keyword)) {
+                        if (!Pattern.compile(keyword).matcher(fragmentText).matches()) {
                             return Collections.singletonList(fragment);
                         }
 
                         final List<LineFragment> subFragments = new ArrayList<>();
-                        final String[] subParts = fragmentText.split(keyword);
+                        final String[] subParts = RegexUtils.split(fragmentText, keyword).toArray(new String[0]);
                         int n = 0;
                         for (final String subpart : subParts) {
                             subFragments.add(LineFragment.of(subpart));
@@ -50,8 +51,8 @@ public final class Fragmentator {
                                 subFragments.add(LineFragment.of(keyword).with(color));
                             }
                         }
-                        if (fragmentText.endsWith(keyword)) {
-                            subFragments.add(LineFragment.of(keyword).with(color));
+                        if (Pattern.compile(keyword).matcher(fragmentText).matches()) {
+                            subFragments.add(LineFragment.of(fragmentText).with(color));
                         }
 
                         return subFragments;
