@@ -38,17 +38,15 @@ public final class Fragmentator {
                             return Collections.singletonList(fragment);
                         }
 
-                        /*if (!Pattern.compile(keyword).matcher(fragmentText).matches()) {
-                            // this fragment does not contain keyword
-                            return Collections.singletonList(fragment);
-                        }*/
-
                         final var parts = RegexUtils.split(fragmentText, keyword);
                         return parts.stream()
                                 .map(part -> part.isKeyword() ? LineFragment.of(part.getText()).with(color) : LineFragment.of(part.getText()))
                                 .collect(Collectors.toList());
                     }).flatMap(Collection::stream)
                     .collect(Collectors.toList());
+        }
+        if (fragments.size() == 1 && fragments.get(0).getText().equals(line) && fragments.get(0).getColor() == null) {
+            return Collections.emptyList();
         }
         return fragments;
     }

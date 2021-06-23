@@ -161,6 +161,20 @@ class FragmentatorTest {
                                 LineFragment.of("m6xelkqm").with(Color.CYAN),
                                 LineFragment.of("\", contentType=\"application/json\""),
                         }
+                ),
+                Arguments.of(
+                        "URI=\"/position/user/+61490541848/m6xelkqm\", contentType=\"application/json\"",
+                        newArrayList(new Highlight("/position/user/.*/m6xelkqm", Color.CYAN)),
+                        new LineFragment[]{
+                                LineFragment.of("URI=\""),
+                                LineFragment.of("/position/user/+61490541848/m6xelkqm").with(Color.CYAN),
+                                LineFragment.of("\", contentType=\"application/json\""),
+                        }
+                ),
+                Arguments.of(
+                        "aaa bb cc",
+                        newArrayList(new Highlight("dd", Color.CYAN)),
+                        EMPTY_LIST
                 )
         );
     }

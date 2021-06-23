@@ -94,6 +94,15 @@ class RegexUtilsTest {
                                 Part.keyword("m6xelkqm"),
                                 Part.text("\", contentType=\"application/json\"")
                         }
+                ),
+                Arguments.of(
+                        "URI=\"/pos/+614/m6x\"",
+                        "/pos/.*/m6x",
+                        new Part[]{
+                                Part.text("URI=\""),
+                                Part.keyword("/pos/+614/m6x"),
+                                Part.text("\"")
+                        }
                 )
         );
     }
