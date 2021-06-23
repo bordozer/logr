@@ -46,7 +46,7 @@ public final class Fragmentator {
                         if (fragmentColor != null) {
                             return Collections.singletonList(fragment);
                         }
-                        if (!Pattern.compile(keyword).matcher(fragmentText).matches()) {
+                        if (StringUtils.isNotEmpty(fragmentText) && !Pattern.compile(keyword).matcher(fragmentText).matches()) {
                             return Collections.singletonList(fragment);
                         }
 
