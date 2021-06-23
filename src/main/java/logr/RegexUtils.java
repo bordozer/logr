@@ -13,19 +13,19 @@ public final class RegexUtils {
 
     public static List<String> split(final String text, final String keyword) {
         final var result = new ArrayList<String>();
+        var remain = text;
 
-        for (int i = 0; i <= text.length(); i++) {
-            for (int j = i + 1; j <= text.length(); j++) {
-                final var substring = text.substring(i, j);
-                if (Pattern.compile(keyword).matcher(substring).matches()) {
-                    final var candidate = text.substring(0, i);
+        for (int i = 0; i <= remain.length(); i++) {
+            for (int j = i + 1; j <= remain.length(); j++) {
+                final var testee = remain.substring(i, j);
+                if (Pattern.compile(keyword).matcher(testee).matches()) {
+                    final var candidate = remain.substring(0, i);
                     if (StringUtils.isNotEmpty(candidate)) {
                         result.add(candidate);
-                        final var remain = text.substring(j);
-                        result.addAll(split(remain, keyword));
-                        return result;
                     }
-                    i = j + 1;
+                    remain = remain.substring(j);
+                    result.addAll(split(remain, keyword));
+                    return result;
                 }
             }
         }

@@ -23,6 +23,11 @@ class RegexUtilsTest {
                         "0 aac 1 abc 2",
                         "a.*c",
                         new String[]{"0 ", " 1 ", " 2"}
+                ),
+                Arguments.of(
+                        "aac 1 abc 2",
+                        "a.*c",
+                        new String[]{" 1 ", " 2"}
                 )
         );
     }
@@ -37,6 +42,6 @@ class RegexUtilsTest {
         final var strings = RegexUtils.split(text, keyword);
 
         // then
-        strings.forEach(string -> assertThat(string).isEqualTo(expected[strings.indexOf(string)]));
+        assertThat(strings).containsExactly(expected);
     }
 }
