@@ -55,6 +55,32 @@ class RegexUtilsTest {
                 ),
                 Arguments.of(
                         "aac 1 abc",
+                        "a.?c",
+                        new Part[]{
+                                Part.keyword("aac"),
+                                Part.text(" 1 "),
+                                Part.keyword("abc")
+                        }
+                ),
+                Arguments.of(
+                        "aac 1 ac",
+                        "a.?c",
+                        new Part[]{
+                                Part.keyword("aac"),
+                                Part.text(" 1 "),
+                                Part.keyword("ac")
+                        }
+                ),
+                Arguments.of(
+                        "aac 1 abdc",
+                        "a.?c",
+                        new Part[]{
+                                Part.keyword("aac"),
+                                Part.text(" 1 abdc")
+                        }
+                ),
+                Arguments.of(
+                        "aac 1 abc",
                         "a.*d",
                         new Part[]{
                                 Part.text("aac 1 abc")

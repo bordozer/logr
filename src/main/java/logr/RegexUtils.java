@@ -1,6 +1,7 @@
 package logr;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ public final class RegexUtils {
     @Getter
     @RequiredArgsConstructor
     @ToString
+    @EqualsAndHashCode
     public static class Part {
         private final String text;
         private final boolean keyword;
