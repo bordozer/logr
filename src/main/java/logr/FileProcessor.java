@@ -3,6 +3,8 @@ package logr;
 import lombok.RequiredArgsConstructor;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -16,6 +18,7 @@ public final class FileProcessor {
     private final Logger logger;
 
     public void process(final List<File> files, final List<Highlight> highlights) {
+        final var start = System.currentTimeMillis();
         final var colorizedLines = LinesCollector.collect(files, highlights);
         colorizedLines
                 .forEach(fl -> {
@@ -42,6 +45,12 @@ public final class FileProcessor {
                 .map(FileContainer::getLines)
                 .mapToLong(Collection::size)
                 .sum();
-        logger.summary(String.format("  Total: %s line(s) in %s file(s)", total, files.size()));
+        final var end = System.currentTimeMillis();
+        logger.summary(String.format("  Total: %s line(s) in %s file(s) in %s"
+                , total
+                , files.size()
+                , Duration.of(end - start, ChronoUnit.MILLIS).toString().substring(2).replaceAll("(\\d[HMS])(?!$)", "$1 ").toLowerCase()
+                )
+        );
     }
 }

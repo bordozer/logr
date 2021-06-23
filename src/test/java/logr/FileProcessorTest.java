@@ -1,10 +1,12 @@
 package logr;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.util.Collections;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -38,6 +40,10 @@ class FileProcessorTest {
         verify(logger).info("\u001B[48;5;96m.9\u001B[0m four \u001B[1;34mtwo\u001B[0m\n");
         verify(logger).info("\u001B[48;5;96m10\u001B[0m five \u001B[1;34mtwo\u001B[0m\n");
         verify(logger).info("\u001B[48;5;96m12\u001B[0m nine \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).summary("  Total: 11 line(s) in 1 file(s)");
+
+        final ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(logger).summary(captor.capture());
+        final var value = captor.getValue();
+        assertThat(value).startsWith("  Total: 11 line(s) in 1 file(s)");
     }
 }
