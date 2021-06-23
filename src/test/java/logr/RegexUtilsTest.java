@@ -1,7 +1,7 @@
 package logr;
 
+import logr.RegexUtils.Part;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,22 +17,48 @@ class RegexUtilsTest {
                 Arguments.of(
                         "one two three",
                         "two",
-                        new String[]{"one ", " three"}
+                        new Part[]{
+                                Part.text("one "),
+                                Part.keyword("two"),
+                                Part.text(" three")
+                        }
                 ),
                 Arguments.of(
                         "0 aac 1 abc 2",
                         "a.*c",
-                        new String[]{"0 ", " 1 ", " 2"}
+                        new Part[]{
+                                Part.text("0 "),
+                                Part.keyword("aac"),
+                                Part.text(" 1 "),
+                                Part.keyword("abc"),
+                                Part.text(" 2")
+                        }
                 ),
                 Arguments.of(
                         "aac 1 abc 2",
                         "a.*c",
-                        new String[]{" 1 ", " 2"}
+                        new Part[]{
+                                Part.keyword("aac"),
+                                Part.text(" 1 "),
+                                Part.keyword("abc"),
+                                Part.text(" 2"),
+                        }
                 ),
                 Arguments.of(
                         "aac 1 abc",
                         "a.*c",
-                        new String[]{" 1 "}
+                        new Part[]{
+                                Part.keyword("aac"),
+                                Part.text(" 1 "),
+                                Part.keyword("abc")
+                        }
+                ),
+                Arguments.of(
+                        "aac 1 abc",
+                        "a.*d",
+                        new Part[]{
+                                Part.text("aac 1 abc")
+                        }
                 )
         );
     }
@@ -40,7 +66,7 @@ class RegexUtilsTest {
     @DisplayName("Should split line")
     @ParameterizedTest
     @MethodSource("dataSupplier")
-    void shouldReturnColorized(final String text, final String keyword, final String[] expected) {
+    void shouldReturnColorized(final String text, final String keyword, final Part[] expected) {
         // given
 
         // when

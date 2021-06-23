@@ -3,7 +3,6 @@ package logr;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -17,13 +16,23 @@ public final class Fragmentator {
             return Collections.emptyList();
         }
         // line should contains all included
-        if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !Pattern.compile(highlight.getKeyword()).matcher(line).matches())) {
+        /*if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !Pattern.compile(highlight.getKeyword()).matcher(line).matches())) {
             return Collections.emptyList();
-        }
+        }*/
         // line should not contain excluded
         if (highlights.stream().anyMatch(highlight -> highlight.isExcluded() && line.contains(highlight.getKeyword()))) {
             return Collections.emptyList();
         }
+
+        /*for (final Highlight highlight : highlights) {
+            final var keyword = highlight.getKeyword();
+            final var color = highlight.getColor();
+
+            final var parts = RegexUtils.split(line, keyword);
+            return parts.stream()
+                    .map(part -> part.isKeyword() ? LineFragment.of(part.getText()).with(color) : LineFragment.of(part.getText()))
+                    .collect(Collectors.toList());
+        }*/
 
         List<LineFragment> fragments = Collections.singletonList(LineFragment.of(line));
         for (final Highlight highlight : highlights) {
@@ -38,6 +47,12 @@ public final class Fragmentator {
                             return Collections.singletonList(fragment);
                         }
 
+                        final var parts = RegexUtils.split(fragmentText, keyword);
+                        return parts.stream()
+                                .map(part -> part.isKeyword() ? LineFragment.of(part.getText()).with(color) : LineFragment.of(part.getText()))
+                                .collect(Collectors.toList());
+
+                        /*
                         if (!Pattern.compile(keyword).matcher(fragmentText).matches()) {
                             return Collections.singletonList(fragment);
                         }
@@ -55,7 +70,7 @@ public final class Fragmentator {
                             subFragments.add(LineFragment.of(fragmentText).with(color));
                         }
 
-                        return subFragments;
+                        return subFragments;*/
                     }).flatMap(Collection::stream)
                     .collect(Collectors.toList());
         }

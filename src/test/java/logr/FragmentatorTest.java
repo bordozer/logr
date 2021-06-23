@@ -18,7 +18,7 @@ class FragmentatorTest {
 
     static Stream<Arguments> dataSupplier() {
         return Stream.of(
-                /*Arguments.of(
+                Arguments.of(
                         "",
                         Collections.emptyList(),
                         EMPTY_LIST
@@ -125,14 +125,14 @@ class FragmentatorTest {
                         "one",
                         newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", Color.CYAN, true)),
                         EMPTY_LIST
-                ),*/
-                /*Arguments.of(
+                )/*,
+                Arguments.of(
                         "one_two_three",
                         newArrayList(new Highlight("one_.*_three", Color.CYAN)),
                         new LineFragment[]{
                                 LineFragment.of("one_two_three").with(Color.CYAN)
                         }
-                ),*/
+                ),
                 Arguments.of(
                         "one_one_three one_two_three one_three_three",
                         newArrayList(new Highlight("one_.*_three", Color.CYAN)),
@@ -141,7 +141,7 @@ class FragmentatorTest {
                                 LineFragment.of("one_two_three").with(Color.CYAN),
                                 LineFragment.of("one_three_three").with(Color.CYAN),
                         }
-                )
+                )*/
         );
     }
 
