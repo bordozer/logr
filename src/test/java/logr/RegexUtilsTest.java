@@ -38,14 +38,16 @@ class RegexUtilsTest {
     @Test
     void shouldSplitByPattern2() {
         // given
-        final var text = "one two three four one two three";
-        final var keyword = "one .* three";
+        final var text = "0 aac 1 abc 2";
+        final var keyword = "a.*c";
 
         // when
         final var strings = RegexUtils.split(text, keyword);
 
         // then
-        assertThat(strings).hasSize(1);
-        assertThat(strings.get(0)).isEqualTo(" four ");
+        assertThat(strings).hasSize(3);
+        assertThat(strings.get(0)).isEqualTo("0 ");
+        assertThat(strings.get(1)).isEqualTo(" 1 ");
+        assertThat(strings.get(2)).isEqualTo(" 2");
     }
 }
