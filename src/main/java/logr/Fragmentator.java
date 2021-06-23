@@ -20,7 +20,7 @@ public final class Fragmentator {
             return Collections.emptyList();
         }
         for (final Highlight highlight : highlights) {
-            if (!Pattern.compile(highlight.getKeyword()).matcher(line).find()) {
+            if (!highlight.isExcluded() && !Pattern.compile(highlight.getKeyword()).matcher(line).find()) {
                 return Collections.emptyList();
             }
         }

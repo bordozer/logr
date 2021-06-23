@@ -24,7 +24,7 @@ class FileProcessorTest {
 
         // then
         verify(logger, times(1)).fileInfo(anyString());
-        verify(logger, times(12)).info(anyString());
+        verify(logger, times(11)).info(anyString());
         verify(logger, times(1)).summary(anyString());
 
         verify(logger).info("\u001B[48;5;96m.1\u001B[0m one \u001B[1;34mtwo\u001B[0m\n");
@@ -38,6 +38,6 @@ class FileProcessorTest {
         verify(logger).info("\u001B[48;5;96m.9\u001B[0m four \u001B[1;34mtwo\u001B[0m\n");
         verify(logger).info("\u001B[48;5;96m10\u001B[0m five \u001B[1;34mtwo\u001B[0m\n");
         verify(logger).info("\u001B[48;5;96m12\u001B[0m nine \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).summary("  Total: 12 line(s) in 1 file(s)");
+        verify(logger).summary("  Total: 11 line(s) in 1 file(s)");
     }
 }

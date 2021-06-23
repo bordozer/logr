@@ -24,7 +24,7 @@ class LinesCollectorTest {
         final var fl1 = list.get(0);
 
         final var lines = fl1.getLines();
-        assertThat(lines).hasSize(3);
+        assertThat(lines).hasSize(2);
 
         final var row1 = lines.get(0);
         assertThat(row1.getOriginalRowNumber()).isEqualTo(1);
@@ -40,19 +40,13 @@ class LinesCollectorTest {
         assertThat(fragments2).hasSize(2);
         assertThat(fragments2.get(0)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
         assertThat(fragments2.get(1)).isEqualTo(LineFragment.of(" five"));
-
-        final var row3 = lines.get(2);
-        assertThat(row3.getOriginalRowNumber()).isEqualTo(3);
-        final var fragments3 = row3.getFragments();
-        assertThat(fragments3).hasSize(1);
-        assertThat(fragments3.get(0)).isEqualTo(LineFragment.of("three four"));
     }
 
     @Test
     void shouldIgnoreExcludedStrings() {
         // given
         final var files = Collections.singletonList(CommonUtils.readResourceFile("file-4.txt"));
-        final var highlights = newArrayList(new Highlight("two", Color.YELLOW), new Highlight("one", Color.YELLOW, true));
+        final var highlights = newArrayList(new Highlight("two", Color.YELLOW), new Highlight("one", Color.GREEN, true));
 
         // when
         final var list = LinesCollector.collect(files, highlights);
