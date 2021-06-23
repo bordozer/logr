@@ -15,24 +15,10 @@ public final class Fragmentator {
         if (CollectionUtils.isEmpty(highlights)) {
             return Collections.emptyList();
         }
-        // line should contains all included
-        /*if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !Pattern.compile(highlight.getKeyword()).matcher(line).matches())) {
-            return Collections.emptyList();
-        }*/
         // line should not contain excluded
         if (highlights.stream().anyMatch(highlight -> highlight.isExcluded() && line.contains(highlight.getKeyword()))) {
             return Collections.emptyList();
         }
-
-        /*for (final Highlight highlight : highlights) {
-            final var keyword = highlight.getKeyword();
-            final var color = highlight.getColor();
-
-            final var parts = RegexUtils.split(line, keyword);
-            return parts.stream()
-                    .map(part -> part.isKeyword() ? LineFragment.of(part.getText()).with(color) : LineFragment.of(part.getText()))
-                    .collect(Collectors.toList());
-        }*/
 
         List<LineFragment> fragments = Collections.singletonList(LineFragment.of(line));
         for (final Highlight highlight : highlights) {
