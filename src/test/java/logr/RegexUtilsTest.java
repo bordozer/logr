@@ -85,6 +85,15 @@ class RegexUtilsTest {
                         new Part[]{
                                 Part.text("aac 1 abc")
                         }
+                ),
+                Arguments.of(
+                        "URI=\"/position/user/+61490541848/m6xelkqm\", contentType=\"application/json\"",
+                        "m6xelkqm",
+                        new Part[]{
+                                Part.text("URI=\"/position/user/+61490541848/"),
+                                Part.keyword("m6xelkqm"),
+                                Part.text("\", contentType=\"application/json\"")
+                        }
                 )
         );
     }
