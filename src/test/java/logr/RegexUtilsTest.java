@@ -28,6 +28,11 @@ class RegexUtilsTest {
                         "aac 1 abc 2",
                         "a.*c",
                         new String[]{" 1 ", " 2"}
+                ),
+                Arguments.of(
+                        "aac 1 abc",
+                        "a.*c",
+                        new String[]{" 1 "}
                 )
         );
     }

@@ -29,7 +29,9 @@ public final class RegexUtils {
                 }
             }
         }
-        result.add(text);
+        if (StringUtils.isNotEmpty(remain)) {
+            result.add(remain);
+        }
 
         return result;
     }
