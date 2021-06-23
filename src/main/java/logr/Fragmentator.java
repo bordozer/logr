@@ -38,10 +38,10 @@ public final class Fragmentator {
                             return Collections.singletonList(fragment);
                         }
 
-                        if (!Pattern.compile(keyword).matcher(fragmentText).matches()) {
+                        /*if (!Pattern.compile(keyword).matcher(fragmentText).matches()) {
                             // this fragment does not contain keyword
                             return Collections.singletonList(fragment);
-                        }
+                        }*/
 
                         final var parts = RegexUtils.split(fragmentText, keyword);
                         return parts.stream()
