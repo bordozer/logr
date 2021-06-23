@@ -1,53 +1,42 @@
 package logr;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class RegexUtilsTest {
 
-    @Test
-    void shouldSplitByKeyword() {
-        // given
-        final var text = "one two three";
-        final var keyword = "two";
-
-        // when
-        final var strings = RegexUtils.split(text, keyword);
-
-        // then
-        assertThat(strings).hasSize(2);
-        assertThat(strings.get(0)).isEqualTo("one ");
-        assertThat(strings.get(1)).isEqualTo(" three");
+    static Stream<Arguments> dataSupplier() {
+        return Stream.of(
+                Arguments.of(
+                        "one two three",
+                        "two",
+                        new String[]{"one ", " three"}
+                ),
+                Arguments.of(
+                        "0 aac 1 abc 2",
+                        "a.*c",
+                        new String[]{"0 ", " 1 ", " 2"}
+                )
+        );
     }
 
-    @Test
-    void shouldSplitByPattern1() {
+    @DisplayName("Should split line")
+    @ParameterizedTest
+    @MethodSource("dataSupplier")
+    void shouldReturnColorized(final String text, final String keyword, final String[] expected) {
         // given
-        final var text = "one two three";
-        final var keyword = "one .* three";
 
         // when
         final var strings = RegexUtils.split(text, keyword);
 
         // then
-        assertThat(strings).hasSize(1);
-        assertThat(strings.get(0)).isEqualTo("one two three");
-    }
-
-    @Test
-    void shouldSplitByPattern2() {
-        // given
-        final var text = "0 aac 1 abc 2";
-        final var keyword = "a.*c";
-
-        // when
-        final var strings = RegexUtils.split(text, keyword);
-
-        // then
-        assertThat(strings).hasSize(3);
-        assertThat(strings.get(0)).isEqualTo("0 ");
-        assertThat(strings.get(1)).isEqualTo(" 1 ");
-        assertThat(strings.get(2)).isEqualTo(" 2");
+        strings.forEach(string -> assertThat(string).isEqualTo(expected[strings.indexOf(string)]));
     }
 }
