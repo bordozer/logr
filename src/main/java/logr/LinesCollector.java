@@ -5,6 +5,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import logr.FileContainer.FileRow;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -28,7 +29,7 @@ public final class LinesCollector {
                     .build();
         }
         final var counter = new AtomicInteger(1);
-        final List<FileRow> lines = Files.lines(Path.of(file.toURI()))
+        final List<FileRow> lines = Files.lines(Path.of(file.toURI()), StandardCharsets.ISO_8859_1)
                 .map(rawLine -> Fragmentator.process(rawLine, highlights))
                 .map(fragments -> new FileRow(counter.getAndIncrement(), fragments)) // before filter to get original row number
                 .filter(row -> CollectionUtils.isNotEmpty(row.getFragments()))
