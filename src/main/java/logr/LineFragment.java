@@ -13,6 +13,7 @@ import javax.annotation.CheckForNull;
 @EqualsAndHashCode(of = {"text", "color"})
 @ToString
 public class LineFragment {
+
     private final String text;
     @CheckForNull
     private Color color;

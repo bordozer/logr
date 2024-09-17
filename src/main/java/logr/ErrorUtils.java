@@ -9,14 +9,14 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 public final class ErrorUtils {
 
     public static String getMessage(final Throwable ex) {
-        final var message = ex.getMessage();
+        final String message = ex.getMessage();
         if (StringUtils.isNoneBlank(message)) {
             return message;
         }
-        final var exception = ex.getClass().getName();
-        final var stackTrace = ex.getStackTrace();
+        final String exception = ex.getClass().getName();
+        final StackTraceElement[] stackTrace = ex.getStackTrace();
         if (stackTrace != null && stackTrace.length > 0) {
-            final var traceElement = stackTrace[0];
+            final StackTraceElement traceElement = stackTrace[0];
             return String.format("%s at %s line %s", exception, traceElement.getClassName(), traceElement.getLineNumber());
         }
         return exception;

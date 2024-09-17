@@ -1,5 +1,6 @@
 package logr;
 
+import logr.FileContainer.FileRow;
 import lombok.RequiredArgsConstructor;
 
 import java.io.File;
@@ -18,34 +19,34 @@ public final class FileProcessor {
     private final Logger logger;
 
     public void process(final List<File> files, final List<Highlight> highlights) {
-        final var start = System.currentTimeMillis();
-        final var colorizedLines = LinesCollector.collect(files, highlights);
+        final long start = System.currentTimeMillis();
+        final List<FileContainer> colorizedLines = LinesCollector.collect(files, highlights);
         colorizedLines
                 .forEach(fl -> {
-                    final var file = fl.getFile();
+                    final File file = fl.getFile();
                     if (fl.getDirectory()) {
                         logger.fileInfo(String.format("  %s is a directory - skipped", file.getAbsolutePath()));
                         return;
                     }
-                    final var fileRows = fl.getLines();
+                    final List<FileRow> fileRows = fl.getLines();
 
-                    final var maxRowNumber = fileRows.stream().max(Comparator.comparing(FileContainer.FileRow::getOriginalRowNumber))
+                    final Integer maxRowNumber = fileRows.stream().max(Comparator.comparing(FileContainer.FileRow::getOriginalRowNumber))
                             .map(FileContainer.FileRow::getOriginalRowNumber)
                             .orElse(0);
 
                     logger.fileInfo(String.format("  %s (%s)", file.getAbsolutePath(), fileRows.size()));
                     fileRows.forEach(pair -> {
-                        final var rowNumber = formatRowNumber(pair.getOriginalRowNumber(), maxRowNumber);
-                        final var colorizedString = buildColorizedString(pair.getFragments());
+                        final String rowNumber = formatRowNumber(pair.getOriginalRowNumber(), maxRowNumber);
+                        final String colorizedString = buildColorizedString(pair.getFragments());
                         logger.info(String.format("%s%s%s %s\n", Logger.ROW_NUMBER, rowNumber, Logger.RESET, colorizedString));
                     });
                 });
 
-        final var total = colorizedLines.stream()
+        final long total = colorizedLines.stream()
                 .map(FileContainer::getLines)
                 .mapToLong(Collection::size)
                 .sum();
-        final var end = System.currentTimeMillis();
+        final long end = System.currentTimeMillis();
         logger.summary(String.format("  Total: %s line(s) in %s file(s) in %s"
                 , total
                 , files.size()

@@ -46,7 +46,7 @@ class LinesCollectorTest {
     void shouldIgnoreExcludedStrings() {
         // given
         final var files = Collections.singletonList(CommonUtils.readResourceFile("file-4.txt"));
-        final var highlights = newArrayList(new Highlight("two", Color.YELLOW), new Highlight("one", Color.YELLOW, true));
+        final var highlights = newArrayList(new Highlight("two", Color.YELLOW), new Highlight("one", true, Color.YELLOW));
 
         // when
         final var list = LinesCollector.collect(files, highlights);

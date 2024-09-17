@@ -15,7 +15,7 @@ public final class Fragmentator {
         if (CollectionUtils.isEmpty(highlights)) {
             return Collections.emptyList();
         }
-        // line should contains all included
+        // line should contain all included
         if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !line.contains(highlight.getKeyword()))) {
             return Collections.emptyList();
         }
@@ -28,11 +28,11 @@ public final class Fragmentator {
         for (final Highlight highlight : highlights) {
             fragments = fragments.stream()
                     .map(fragment -> {
-                        final var keyword = highlight.getKeyword();
-                        final var color = highlight.getColor();
+                        final String keyword = highlight.getKeyword();
+                        final Color color = highlight.getColor();
 
-                        final var fragmentText = fragment.getText();
-                        final var fragmentColor = fragment.getColor();
+                        final String fragmentText = fragment.getText();
+                        final Color fragmentColor = fragment.getColor();
                         if (fragmentColor != null) {
                             return Collections.singletonList(fragment);
                         }

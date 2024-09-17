@@ -19,7 +19,7 @@ public final class HighlightCollector {
         }
         COUNTER.set(0);
         final List<Highlight> highlights = new ArrayList<>();
-        final var parameters = Arrays.copyOfRange(args, 1, args.length);
+        final String[] parameters = Arrays.copyOfRange(args, 1, args.length);
         for (final String parameter : parameters) {
             highlights.add(getHighlight(parameter));
         }
@@ -29,20 +29,20 @@ public final class HighlightCollector {
     }
 
     private static Highlight getHighlight(final String parameter) {
-        final var isExcluded = parameter.startsWith("!");
-        @CheckForNull final var color = isExcluded ? null : Color.values()[COUNTER.getAndIncrement()];
-        return new Highlight(getKeyword(parameter, isExcluded), color, isExcluded);
+        final boolean isExcluded = parameter.startsWith("!");
+        @CheckForNull final Color color = isExcluded ? null : Color.values()[COUNTER.getAndIncrement()];
+        return new Highlight(getKeyword(parameter, isExcluded), isExcluded, color);
     }
 
     private static void validate(final List<Highlight> highlights) {
-        final var included = highlights.stream()
+        final List<Highlight> included = highlights.stream()
                 .filter(Highlight::isExcluded)
                 .collect(Collectors.toList());
-        final var excluded = highlights.stream()
+        final List<Highlight> excluded = highlights.stream()
                 .filter(h -> !h.isExcluded())
                 .collect(Collectors.toList());
 
-        final var hasTheSameElement = included.stream()
+        final boolean hasTheSameElement = included.stream()
                 .map(Highlight::getKeyword)
                 .anyMatch(excluded.stream()
                         .map(Highlight::getKeyword)

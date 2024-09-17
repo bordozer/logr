@@ -3,6 +3,10 @@ package logr;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 public class App {
 
@@ -24,10 +28,11 @@ public class App {
     }
 
     private static void process(final String[] args) {
-        final var mask = args[0];
-        final var files = FileUtils.getFiles(mask);
+        final String mask = args[0];
+        final List<File> files = FileUtils.getFiles(mask);
+        log.info("Files: \"{}\"", files.stream().map(File::getName).collect(Collectors.joining(", ")));
 
-        final var highlights = HighlightCollector.buildHighlights(args);
+        final List<Highlight> highlights = HighlightCollector.buildHighlights(args);
         new FileProcessor(LOGGER).process(files, highlights);
     }
 }

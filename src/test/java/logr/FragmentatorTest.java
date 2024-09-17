@@ -103,7 +103,7 @@ class FragmentatorTest {
                 ),
                 Arguments.of(
                         "one two",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN, true)),
+                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", true, Color.CYAN)),
                         EMPTY_LIST
                 ),
                 Arguments.of(
@@ -123,7 +123,7 @@ class FragmentatorTest {
                 ),
                 Arguments.of(
                         "one",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", Color.CYAN, true)),
+                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", true, Color.CYAN)),
                         EMPTY_LIST
                 )
         );

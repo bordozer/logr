@@ -1,5 +1,6 @@
 package logr;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -7,15 +8,10 @@ import javax.annotation.CheckForNull;
 
 @Getter
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class Highlight {
     private final String keyword;
+    private boolean excluded;
     @CheckForNull
     private final Color color;
-    private boolean excluded;
-
-    public Highlight(final String keyword, @CheckForNull final Color color, final boolean excluded) {
-        this.keyword = keyword;
-        this.color = color;
-        this.excluded = excluded;
-    }
 }
