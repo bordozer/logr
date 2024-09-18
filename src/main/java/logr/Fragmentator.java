@@ -3,6 +3,7 @@ package logr;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,19 +29,18 @@ public final class Fragmentator {
         for (final Highlight highlight : highlights) {
             fragments = fragments.stream()
                     .map(fragment -> {
-                        final String keyword = highlight.getKeyword();
-                        final Color color = highlight.getColor();
-
                         final String fragmentText = fragment.getText();
-                        final Color fragmentColor = fragment.getColor();
+                        @Nullable final Color fragmentColor = fragment.getColor();
                         if (fragmentColor != null) {
                             return Collections.singletonList(fragment);
                         }
 
+                        final String keyword = highlight.getKeyword();
                         if (!fragmentText.contains(keyword)) {
                             return Collections.singletonList(fragment);
                         }
 
+                        @Nullable final Color color = highlight.getColor();
                         final List<LineFragment> subFragments = new ArrayList<>();
                         final String[] subParts = fragmentText.split(keyword);
                         int n = 0;
@@ -55,11 +55,12 @@ public final class Fragmentator {
                         }
 
                         return subFragments;
-                    }).flatMap(Collection::stream)
+                    })
+                    .flatMap(Collection::stream)
                     .collect(Collectors.toList());
         }
         return fragments.stream()
-                .filter(frag -> !StringUtils.EMPTY.equals(frag.getText()))
+                .filter(frag -> StringUtils.isNotEmpty(frag.getText()))
                 .collect(Collectors.toList());
     }
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -15,14 +16,14 @@ import javax.annotation.CheckForNull;
 public class LineFragment {
 
     private final String text;
-    @CheckForNull
+    @Nullable
     private Color color;
 
     public static LineFragment of(final String text) {
         return new LineFragment(text);
     }
 
-    public LineFragment with(final Color color) {
+    public LineFragment with(@Nullable final Color color) {
         this.color = color;
         return this;
     }

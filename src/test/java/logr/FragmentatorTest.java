@@ -125,6 +125,15 @@ class FragmentatorTest {
                         "one",
                         newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", true, Color.CYAN)),
                         EMPTY_LIST
+                ),
+                Arguments.of(
+                        "Saving offer 100019500 event Øriggered, traceId=\"f36587a58cf2fd34\"",
+                        newArrayList(new Highlight("f36587a58cf2fd34", Color.CYAN)),
+                        new LineFragment[]{
+                                LineFragment.of("Saving offer 100019500 event Øriggered, traceId=\""),
+                                LineFragment.of("f36587a58cf2fd34").with(Color.CYAN),
+                                LineFragment.of("\"")
+                        }
                 )
         );
     }
