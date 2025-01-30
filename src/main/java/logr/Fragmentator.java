@@ -2,6 +2,7 @@ package logr;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -48,22 +49,25 @@ public final class Fragmentator {
 
                         @Nullable final Color color = highlight.getColor();
                         final List<LineFragment> subFragments = new ArrayList<>();
-                        final String[] subParts = splitIgnoreCase(fragmentText, keyword, caseSensitive);
-                        if (subParts.length == 0) {
+                        final Pair<List<String>, List<String>> listListPair = splitIgnoreCase(fragmentText, keyword, caseSensitive);
+                        final List<String> subParts = listListPair.getKey();
+                        final List<String> keywords = listListPair.getValue();
+                        if (subParts.isEmpty()) {
                             return Collections.singletonList(LineFragment.of(fragmentText).with(color));
                         }
-                        if (subParts.length == 1 && subParts[0].equals(fragmentText)) {
+                        if (subParts.size() == 1 && subParts.get(0).equals(fragmentText)) {
                             return null;
                         }
                         int n = 0;
-                        for (final String subpart : subParts) {
+                        for (int i = 0; i < subParts.size(); i++) {
+                            final String subpart = subParts.get(i);
                             subFragments.add(LineFragment.of(subpart));
-                            if (n++ < subParts.length - 1) {
-                                subFragments.add(LineFragment.of(keyword).with(color));
+                            if (n++ < subParts.size() - 1) {
+                                subFragments.add(LineFragment.of(keywords.get(i)).with(color));
                             }
                         }
                         if (endsWith(fragmentText, keyword, caseSensitive)) {
-                            subFragments.add(LineFragment.of(keyword).with(color));
+                            subFragments.add(LineFragment.of(keywords.get(keywords.size() - 1)).with(color));
                         }
 
                         return subFragments;

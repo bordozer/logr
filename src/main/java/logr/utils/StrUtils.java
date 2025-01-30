@@ -1,8 +1,13 @@
 package logr.utils;
 
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class StrUtils {
@@ -16,8 +21,14 @@ public class StrUtils {
         return String.format("%s%s", ".".repeat(maxLength - numberLength), number);
     }
 
-    public static String[] splitIgnoreCase(final String text, final String separator, final boolean isCaseSensitive) {
-        return text.split(pattern(CONTAINS_PATTERN, separator, isCaseSensitive));
+    public static Pair<List<String>, List<String>> splitIgnoreCase(final String text, final String separator, final boolean isCaseSensitive) {
+        final String pattern = pattern(CONTAINS_PATTERN, separator, isCaseSensitive);
+        final List<String> collect = Pattern.compile(pattern).matcher(text).results()
+                .map(MatchResult::group)
+                .collect(Collectors.toList());
+        final String[] split = text.split(pattern);
+        final List<String> list = Arrays.stream(split).collect(Collectors.toList());
+        return Pair.of(list, collect);
     }
 
     public static boolean isContains(final String text, final String substring, final boolean isCaseSensitive) {
