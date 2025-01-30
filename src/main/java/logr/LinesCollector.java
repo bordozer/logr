@@ -13,14 +13,14 @@ import java.util.stream.Collectors;
 
 public final class LinesCollector {
 
-    public static List<FileContainer> collect(final List<File> files, final List<Highlight> highlights) {
+    public static List<FileContainer> collect(final List<File> files, final List<Highlight> highlights, final Parameters parameters) {
         return files.stream()
-                .map(file -> processFile(file, highlights))
+                .map(file -> processFile(file, highlights, parameters))
                 .collect(Collectors.toList());
     }
 
     @SneakyThrows
-    private static FileContainer processFile(final File file, final List<Highlight> highlights) {
+    private static FileContainer processFile(final File file, final List<Highlight> highlights, final Parameters parameters) {
         if (file.isDirectory()) {
             return FileContainer.builder()
                     .file(file)
@@ -29,7 +29,7 @@ public final class LinesCollector {
         }
         final AtomicInteger counter = new AtomicInteger(1);
         try (final var lines = Files.lines(Path.of(file.toURI()))) {
-            final List<FileRow> result = lines.map(rawLine -> Fragmentator.process(rawLine, highlights))
+            final List<FileRow> result = lines.map(rawLine -> Fragmentator.process(rawLine, highlights, parameters))
                     .map(fragments -> new FileRow(counter.getAndIncrement(), fragments)) // before filter to get original row number
                     .filter(row -> CollectionUtils.isNotEmpty(row.getFragments()))
                     .collect(Collectors.toList());

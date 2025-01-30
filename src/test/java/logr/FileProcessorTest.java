@@ -19,9 +19,12 @@ class FileProcessorTest {
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-5.txt"));
         final List<Highlight> highlights = newArrayList(new Highlight("two", Color.BLUE));
         final Logger logger = mock(Logger.class);
+        final Parameters params = Parameters.builder()
+                .isCaseSensitive(true)
+                .build();
 
         // when
-        final List<Pair<String, String>> actual = new FileProcessor(logger).process(files, highlights);
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
 
         // then
         assertThat(actual).hasSize(11);
@@ -45,20 +48,101 @@ class FileProcessorTest {
         final List<Highlight> highlights = newArrayList(new Highlight("email", Color.BLUE));
         final Logger logger = mock(Logger.class);
 
+        final Parameters params = Parameters.builder()
+                .isCaseSensitive(false)
+                .build();
+
         // when
-        final List<Pair<String, String>> actual = new FileProcessor(logger).process(files, highlights);
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
 
         // then
-        assertThat(actual).hasSize(10);
-        assertThat(actual.get(0).getValue()).isEqualTo("Line number one cuatomer\u001B[1;34memail\u001B[0m: qwert@domain.com");
-        assertThat(actual.get(1).getValue()).isEqualTo("Line number one cuatomer\u001B[1;34memail\u001B[0m: qwert@domain.com");
-        assertThat(actual.get(2).getValue()).isEqualTo("Line number one cuatomer\u001B[1;34memail\u001B[0mwork: qwert@domain.com");
-        assertThat(actual.get(3).getValue()).isEqualTo("Line number one cuatomer\u001B[1;34memail\u001B[0mWork: qwert@domain.com");
-        assertThat(actual.get(4).getValue()).isEqualTo("Line number two cuatomer \u001B[1;34memail\u001B[0m: qwert@domain.com");
-        assertThat(actual.get(5).getValue()).isEqualTo("Line number two cuatomer \u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual).hasSize(16);
+        assertThat(actual.get(0).getValue()).isEqualTo("Line 1 number one cuatomer\u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(1).getValue()).isEqualTo("Line 2 number one cuatomer\u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(2).getValue()).isEqualTo("Line 3 number one cuatomer\u001B[1;34memail\u001B[0mwork: qwert@domain.com");
+        assertThat(actual.get(3).getValue()).isEqualTo("Line 4 number one cuatomer\u001B[1;34memail\u001B[0mWork: qwert@domain.com");
+        assertThat(actual.get(4).getValue()).isEqualTo("Line 5 number two cuatomer \u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(5).getValue()).isEqualTo("Line 6 number two cuatomer \u001B[1;34memail\u001B[0m: qwert@domain.com");
         assertThat(actual.get(6).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m");
-        assertThat(actual.get(7).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m");
-        assertThat(actual.get(7).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m");
-        assertThat(actual.get(7).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(7).getValue()).isEqualTo("\u001B[1;34mEMAIL\u001B[0m");
+        assertThat(actual.get(8).getValue()).isEqualTo("\u001B[1;34mEMAILemail\u001B[0m");
+        assertThat(actual.get(9).getValue()).isEqualTo("\u001B[1;34mEMAILEMAIL\u001B[0m");
+        assertThat(actual.get(10).getValue()).isEqualTo("New 9 \u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(11).getValue()).isEqualTo("New 10 \u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(12).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m 11 new");
+        assertThat(actual.get(13).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m 11 new");
+        assertThat(actual.get(14).getValue()).isEqualTo(" \u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(15).getValue()).isEqualTo(" \u001B[1;34memail\u001B[0m");
+    }
+
+    @Test
+    void shouldProcessRespectCase1() {
+        // given
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-7.log"));
+        final List<Highlight> highlights = newArrayList(new Highlight("email", Color.BLUE));
+        final Logger logger = mock(Logger.class);
+
+        final Parameters params = Parameters.builder()
+                .isCaseSensitive(true)
+                .build();
+
+        // when
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
+
+        // then
+        assertThat(actual).hasSize(8);
+        assertThat(actual.get(0).getValue()).isEqualTo("Line 2 number one cuatomer\u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(1).getValue()).isEqualTo("Line 3 number one cuatomer\u001B[1;34memail\u001B[0mwork: qwert@domain.com");
+        assertThat(actual.get(2).getValue()).isEqualTo("Line 5 number two cuatomer \u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(3).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(4).getValue()).isEqualTo("EMAIL\u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(5).getValue()).isEqualTo("New 9 \u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(6).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m 11 new");
+        assertThat(actual.get(7).getValue()).isEqualTo(" \u001B[1;34memail\u001B[0m");
+    }
+
+    @Test
+    void shouldProcessRespectCase2() {
+        // given
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-7.log"));
+        final List<Highlight> highlights = newArrayList(new Highlight("EMAIL", Color.BLUE));
+        final Logger logger = mock(Logger.class);
+
+        final Parameters params = Parameters.builder()
+                .isCaseSensitive(true)
+                .build();
+
+        // when
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
+
+        // then
+        assertThat(actual).hasSize(6);
+        assertThat(actual.get(0).getValue()).isEqualTo("\u001B[1;34mEMAIL\u001B[0m");
+        assertThat(actual.get(1).getValue()).isEqualTo("\u001B[1;34mEMAIL\u001B[0memail");
+        assertThat(actual.get(2).getValue()).isEqualTo("\u001B[1;34mEMAILEMAIL\u001B[0m");
+        assertThat(actual.get(3).getValue()).isEqualTo("New 10 \u001B[1;34mEMAIL\u001B[0m");
+        assertThat(actual.get(4).getValue()).isEqualTo("\u001B[1;34mEMAIL\u001B[0m 11 new");
+        assertThat(actual.get(5).getValue()).isEqualTo(" \u001B[1;34mEMAIL\u001B[0m");
+    }
+
+    @Test
+    void shouldProcessRespectCase3() {
+        // given
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-7.log"));
+        final List<Highlight> highlights = newArrayList(new Highlight("Email", Color.BLUE));
+        final Logger logger = mock(Logger.class);
+
+        final Parameters params = Parameters.builder()
+                .isCaseSensitive(true)
+                .build();
+
+        // when
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
+
+        // then
+        assertThat(actual).hasSize(3);
+        assertThat(actual.get(0).getValue()).isEqualTo("Line 1 number one cuatomer\u001B[1;34mEmail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(1).getValue()).isEqualTo("Line 4 number one cuatomer\u001B[1;34mEmail\u001B[0mWork: qwert@domain.com");
+        assertThat(actual.get(2).getValue()).isEqualTo("Line 6 number two cuatomer \u001B[1;34mEmail\u001B[0m: qwert@domain.com");
     }
 }

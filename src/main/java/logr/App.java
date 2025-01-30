@@ -22,10 +22,31 @@ public class App {
             if (args == null || args.length == 0) {
                 throw new IllegalArgumentException("First parameter (file mask) is missed");
             }
-            if (args.length < 2) {
+            if (args.length < 3) {
                 throw new IllegalArgumentException("Please, define at least one keyword as a second parameter");
             }
-            process(args);
+
+            boolean isCaseSensitive = false;
+            final String firstArg = args[1];
+            if (firstArg.length() == 1) {
+                switch (firstArg) {
+                    case "h": {
+                        LOGGER.info(String.format("Invalid argument: \"%s\"", firstArg));
+                        return;
+                    }
+                    case "c": {
+                        LOGGER.info("The search is case-sensitive");
+                        isCaseSensitive = true;
+                    }
+                    default:
+                        LOGGER.info(String.format("Invalid argument: \"%s\"", firstArg));
+                        return;
+                }
+            }
+            final Parameters params = Parameters.builder()
+                    .isCaseSensitive(isCaseSensitive)
+                    .build();
+            process(args, params);
         } catch (final Throwable ex) {
             //            Logger.error(ErrorUtils.getMessage(ex));
             LOGGER.error(ErrorUtils.getStackTrace(ex));
@@ -33,7 +54,7 @@ public class App {
         }
     }
 
-    private static void process(final String[] args) {
+    private static void process(final String[] args, final Parameters params) {
         final String mask = args[0];
         final List<File> files = FileUtils.getFiles(mask);
         log.info("Files: \"{}\"", files.stream().map(File::getName).collect(Collectors.joining(", ")));
@@ -41,7 +62,7 @@ public class App {
         final List<Highlight> highlights = HighlightCollector.buildHighlights(args);
 
         final long start = System.currentTimeMillis();
-        final List<Pair<String, String>> lines = new FileProcessor(LOGGER).process(files, highlights);
+        final List<Pair<String, String>> lines = new FileProcessor(params, LOGGER).process(files, highlights);
         lines.forEach(pair -> LOGGER.info(String.format("%s%s%s %s\n", Logger.ROW_NUMBER, pair.getKey(), Logger.RESET, pair.getValue())));
         final long end = System.currentTimeMillis();
 

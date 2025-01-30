@@ -143,9 +143,12 @@ class FragmentatorTest {
     @MethodSource("dataSupplier")
     void shouldReturnColorized(final String line, final List<Highlight> highlights, final LineFragment[] expected) {
         // given
+        final Parameters params = Parameters.builder()
+                .isCaseSensitive(true)
+                .build();
 
         // when
-        final var fragments = Fragmentator.process(line, highlights);
+        final var fragments = Fragmentator.process(line, highlights, params);
 
         // then
         assertThat(fragments).containsExactly(expected);

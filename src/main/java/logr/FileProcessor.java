@@ -16,10 +16,11 @@ import static logr.StrUtils.formatRowNumber;
 @RequiredArgsConstructor
 public final class FileProcessor {
 
+    private final Parameters parameters;
     private final Logger logger;
 
     public List<Pair<String, String>> process(final List<File> files, final List<Highlight> highlights) {
-        final List<FileContainer> colorizedLines = LinesCollector.collect(files, highlights);
+        final List<FileContainer> colorizedLines = LinesCollector.collect(files, highlights, parameters);
         return colorizedLines.stream()
                 .map(fl -> {
                     final File file = fl.getFile();
