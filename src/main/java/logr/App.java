@@ -42,6 +42,7 @@ public class App {
 
         final long start = System.currentTimeMillis();
         final List<Pair<String, String>> lines = new FileProcessor(LOGGER).process(files, highlights);
+        lines.forEach(pair -> LOGGER.info(String.format("%s%s%s %s\n", Logger.ROW_NUMBER, pair.getKey(), Logger.RESET, pair.getValue())));
         final long end = System.currentTimeMillis();
 
         final long total = lines.size();

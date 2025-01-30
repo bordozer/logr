@@ -39,7 +39,6 @@ public final class FileProcessor {
                                 final String rowNumber = formatRowNumber(pair.getOriginalRowNumber(), maxRowNumber);
                                 final String colorizedString = buildColorizedString(pair.getFragments());
                                 return Pair.of(rowNumber, colorizedString);
-                                //                        logger.info(String.format("%s%s%s %s\n", Logger.ROW_NUMBER, rowNumber, Logger.RESET, colorizedString));
                             })
                             .collect(Collectors.toList());
                 })
