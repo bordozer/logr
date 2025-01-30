@@ -1,4 +1,4 @@
-package logr;
+package logr.utils;
 
 import lombok.experimental.UtilityClass;
 

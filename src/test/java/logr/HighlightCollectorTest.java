@@ -35,7 +35,7 @@ class HighlightCollectorTest {
     @Test
     void shouldCollectIncluded() {
         // given
-        final String[] args = new String[]{"./", "keyword"};
+        final List<String> args = List.of("keyword");
 
         // when
         final List<Highlight> highlights = HighlightCollector.buildHighlights(args);
@@ -54,10 +54,10 @@ class HighlightCollectorTest {
     @Test
     void shouldConvertExcluded() {
         // given
-        final String[] args = new String[]{"./", "!keyword"};
+        final List<String> params = List.of("!keyword");
 
         // when
-        final List<Highlight> highlights = HighlightCollector.buildHighlights(args);
+        final List<Highlight> highlights = HighlightCollector.buildHighlights(params);
 
         // then
         assertThat(highlights)
@@ -73,10 +73,10 @@ class HighlightCollectorTest {
     @Test
     void shouldCollectIncludedAndExcluded() {
         // given
-        final String[] args = new String[]{"./", "include", "!exclude"};
+        final List<String> params = List.of("include", "!exclude");
 
         // when
-        final List<Highlight> highlights = HighlightCollector.buildHighlights(args);
+        final List<Highlight> highlights = HighlightCollector.buildHighlights(params);
 
         // then
         assertThat(highlights).hasSize(2);
@@ -85,10 +85,10 @@ class HighlightCollectorTest {
     @Test
     void shouldThrowExceptionIfIncludedHAsTheSameKeywordAsExcluded() {
         // given
-        final String[] args = new String[]{"./", "keyword", "!keyword"};
+        final List<String> params = List.of("keyword", "!keyword");
 
         // when
-        assertThrows(IllegalArgumentException.class, () -> HighlightCollector.buildHighlights(args));
+        assertThrows(IllegalArgumentException.class, () -> HighlightCollector.buildHighlights(params));
 
         // then
     }

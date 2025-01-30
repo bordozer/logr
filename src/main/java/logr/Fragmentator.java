@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static logr.StrUtils.endsWith;
-import static logr.StrUtils.isContains;
-import static logr.StrUtils.splitIgnoreCase;
+import static logr.utils.StrUtils.endsWith;
+import static logr.utils.StrUtils.isContains;
+import static logr.utils.StrUtils.splitIgnoreCase;
 
 public final class Fragmentator {
 

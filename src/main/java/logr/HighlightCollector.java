@@ -1,8 +1,6 @@
 package logr;
 
 import javax.annotation.CheckForNull;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -13,13 +11,11 @@ public final class HighlightCollector {
 
     public static final AtomicInteger COUNTER = new AtomicInteger();
 
-    public static List<Highlight> buildHighlights(final String[] args) {
+    public static List<Highlight> buildHighlights(final List<String> keywords) {
         COUNTER.set(0);
-        final List<Highlight> highlights = new ArrayList<>();
-        final String[] parameters = Arrays.copyOfRange(args, 1, args.length);
-        for (final String parameter : parameters) {
-            highlights.add(getHighlight(parameter));
-        }
+        final List<Highlight> highlights = keywords.stream()
+                .map(HighlightCollector::getHighlight)
+                .collect(Collectors.toList());
         validate(highlights);
         return highlights;
     }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static logr.Colorizer.buildColorizedString;
-import static logr.StrUtils.formatRowNumber;
+import static logr.utils.StrUtils.formatRowNumber;
 
 @RequiredArgsConstructor
 public final class FileProcessor {

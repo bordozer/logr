@@ -1,5 +1,6 @@
 package logr;
 
+import logr.utils.StrUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -29,7 +30,7 @@ class StrUtilsTest {
         // given
 
         // when
-        final var actual = StrUtils.formatRowNumber(number, max);
+        final String actual = StrUtils.formatRowNumber(number, max);
 
         // then
         assertThat(actual).isEqualTo(expected);
