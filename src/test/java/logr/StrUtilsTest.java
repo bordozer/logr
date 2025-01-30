@@ -34,4 +34,26 @@ class StrUtilsTest {
         // then
         assertThat(actual).isEqualTo(expected);
     }
+
+    static Stream<Arguments> dataSupplier1() {
+        return Stream.of(
+                Arguments.of("text", "text", new String[]{}),
+                Arguments.of("text", "e", new String[]{"t", "xt"}),
+                Arguments.of("text", "E", new String[]{"t", "xt"}),
+                Arguments.of("text is TEXT", "E", new String[]{"t", "xt is T", "XT"})
+        );
+    }
+
+    @DisplayName("Should split line")
+    @ParameterizedTest
+    @MethodSource("dataSupplier1")
+    void shouldSplitLine(final String text, final String splitter, final String[] expected) {
+        // given
+
+        // when
+        final String[] actual = StrUtils.splitIgnoreCase(text, splitter);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
 }

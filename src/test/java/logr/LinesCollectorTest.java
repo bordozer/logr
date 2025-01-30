@@ -4,7 +4,6 @@ import logr.FileContainer.FileRow;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,7 +16,7 @@ class LinesCollectorTest {
     void shouldIgnoreStringsWithoutKeywords() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-2.txt"));
-        final ArrayList<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW));
+        final List<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW));
 
         // when
         final List<FileContainer> list = LinesCollector.collect(files, highlights);
@@ -50,7 +49,7 @@ class LinesCollectorTest {
     void shouldIgnoreExcludedStrings() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-4.txt"));
-        final ArrayList<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW), new Highlight("one", true, Color.YELLOW));
+        final List<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW), new Highlight("one", true, Color.YELLOW));
 
         // when
         final List<FileContainer> list = LinesCollector.collect(files, highlights);
@@ -75,7 +74,7 @@ class LinesCollectorTest {
     void shouldProcessSpecialChars() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-6.txt"));
-        final ArrayList<Highlight> highlights = newArrayList(new Highlight("f36587a58cf2fd34", Color.YELLOW));
+        final List<Highlight> highlights = newArrayList(new Highlight("f36587a58cf2fd34", Color.YELLOW));
 
         // when
         final List<FileContainer> list = LinesCollector.collect(files, highlights);

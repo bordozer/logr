@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static logr.StrUtils.splitIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
+
 public final class Fragmentator {
 
     public static List<LineFragment> process(final String line, final List<Highlight> highlights) {
@@ -17,11 +20,11 @@ public final class Fragmentator {
             return Collections.emptyList();
         }
         // line should contain all included
-        if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !line.contains(highlight.getKeyword()))) {
+        if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !containsIgnoreCase(line, highlight.getKeyword()))) {
             return Collections.emptyList();
         }
         // line should not contain excluded
-        if (highlights.stream().anyMatch(highlight -> highlight.isExcluded() && line.contains(highlight.getKeyword()))) {
+        if (highlights.stream().anyMatch(highlight -> highlight.isExcluded() && containsIgnoreCase(line, highlight.getKeyword()))) {
             return Collections.emptyList();
         }
 
@@ -36,13 +39,13 @@ public final class Fragmentator {
                         }
 
                         final String keyword = highlight.getKeyword();
-                        if (!fragmentText.contains(keyword)) {
+                        if (!containsIgnoreCase(fragmentText, keyword)) {
                             return Collections.singletonList(fragment);
                         }
 
                         @Nullable final Color color = highlight.getColor();
                         final List<LineFragment> subFragments = new ArrayList<>();
-                        final String[] subParts = fragmentText.split(keyword);
+                        final String[] subParts = splitIgnoreCase(fragmentText, keyword);
                         int n = 0;
                         for (final String subpart : subParts) {
                             subFragments.add(LineFragment.of(subpart));
@@ -50,7 +53,7 @@ public final class Fragmentator {
                                 subFragments.add(LineFragment.of(keyword).with(color));
                             }
                         }
-                        if (fragmentText.endsWith(keyword)) {
+                        if (fragmentText.toLowerCase().endsWith(keyword.toLowerCase())) {
                             subFragments.add(LineFragment.of(keyword).with(color));
                         }
 

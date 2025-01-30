@@ -14,16 +14,12 @@ public final class HighlightCollector {
     public static final AtomicInteger COUNTER = new AtomicInteger();
 
     public static List<Highlight> buildHighlights(final String[] args) {
-        if (args.length < 2) {
-            throw new IllegalArgumentException("Please, define at least one keyword as a second parameter");
-        }
         COUNTER.set(0);
         final List<Highlight> highlights = new ArrayList<>();
         final String[] parameters = Arrays.copyOfRange(args, 1, args.length);
         for (final String parameter : parameters) {
             highlights.add(getHighlight(parameter));
         }
-
         validate(highlights);
         return highlights;
     }
@@ -49,7 +45,7 @@ public final class HighlightCollector {
                         .collect(toSet())
                         ::contains);
         if (hasTheSameElement) {
-            throw new IllegalArgumentException("Please, included contains the same keyword as excluded");
+            throw new IllegalArgumentException("Included contains the same keyword as excluded");
         }
     }
 

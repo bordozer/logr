@@ -1,49 +1,64 @@
 package logr;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
+import java.io.File;
 import java.util.Collections;
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 class FileProcessorTest {
 
     @Test
     void shouldProcessFiles() {
         // given
-        final var files = Collections.singletonList(CommonUtils.readResourceFile("file-5.txt"));
-        final var highlights = newArrayList(new Highlight("two", Color.BLUE));
-        final var logger = mock(Logger.class);
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-5.txt"));
+        final List<Highlight> highlights = newArrayList(new Highlight("two", Color.BLUE));
+        final Logger logger = mock(Logger.class);
 
         // when
-        new FileProcessor(logger).process(files, highlights);
+        final List<Pair<String, String>> actual = new FileProcessor(logger).process(files, highlights);
 
         // then
-        verify(logger, times(1)).fileInfo(anyString());
-        verify(logger, times(11)).info(anyString());
-        verify(logger, times(1)).summary(anyString());
+        assertThat(actual).hasSize(11);
+        assertThat(actual.get(0).getValue()).isEqualTo("one \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(1).getValue()).isEqualTo("\u001B[1;34mtwo\u001B[0m three \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(2).getValue()).isEqualTo("three four \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(3).getValue()).isEqualTo("four five \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(4).getValue()).isEqualTo("five six \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(5).getValue()).isEqualTo("one \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(6).getValue()).isEqualTo("\u001B[1;34mtwo\u001B[0m \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(7).getValue()).isEqualTo("three \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(8).getValue()).isEqualTo("four \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(9).getValue()).isEqualTo("five \u001B[1;34mtwo\u001B[0m");
+        assertThat(actual.get(10).getValue()).isEqualTo("nine \u001B[1;34mtwo\u001B[0m");
+    }
 
-        verify(logger).info("\u001B[48;5;96m.1\u001B[0m one \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m.2\u001B[0m \u001B[1;34mtwo\u001B[0m three \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m.3\u001B[0m three four \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m.4\u001B[0m four five \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m.5\u001B[0m five six \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m.6\u001B[0m one \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m.7\u001B[0m \u001B[1;34mtwo\u001B[0m \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m.8\u001B[0m three \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m.9\u001B[0m four \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m10\u001B[0m five \u001B[1;34mtwo\u001B[0m\n");
-        verify(logger).info("\u001B[48;5;96m12\u001B[0m nine \u001B[1;34mtwo\u001B[0m\n");
+    @Test
+    void shouldProcessIgnoreCase() {
+        // given
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-7.log"));
+        final List<Highlight> highlights = newArrayList(new Highlight("email", Color.BLUE));
+        final Logger logger = mock(Logger.class);
 
-        final ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verify(logger).summary(captor.capture());
-        final var value = captor.getValue();
-        assertThat(value).startsWith("  Total: 11 line(s) in 1 file(s)");
+        // when
+        final List<Pair<String, String>> actual = new FileProcessor(logger).process(files, highlights);
+
+        // then
+        assertThat(actual).hasSize(10);
+        assertThat(actual.get(0).getValue()).isEqualTo("Line number one cuatomer\u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(1).getValue()).isEqualTo("Line number one cuatomer\u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(2).getValue()).isEqualTo("Line number one cuatomer\u001B[1;34memail\u001B[0mwork: qwert@domain.com");
+        assertThat(actual.get(3).getValue()).isEqualTo("Line number one cuatomer\u001B[1;34memail\u001B[0mWork: qwert@domain.com");
+        assertThat(actual.get(4).getValue()).isEqualTo("Line number two cuatomer \u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(5).getValue()).isEqualTo("Line number two cuatomer \u001B[1;34memail\u001B[0m: qwert@domain.com");
+        assertThat(actual.get(6).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(7).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(7).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(7).getValue()).isEqualTo("\u001B[1;34memail\u001B[0m");
     }
 }

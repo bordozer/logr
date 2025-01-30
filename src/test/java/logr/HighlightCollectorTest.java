@@ -2,13 +2,15 @@ package logr;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static logr.Color.PURPLE_BOLD_BRIGHT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static logr.Color.PURPLE_BOLD_BRIGHT;
 
 class HighlightCollectorTest {
 
-    @Test
+    /*@Test
     void shouldThrowExceptionIfArgsLenIsZero() {
         // given
         final String[] args = new String[]{};
@@ -17,10 +19,10 @@ class HighlightCollectorTest {
         assertThrows(IllegalArgumentException.class, () -> HighlightCollector.buildHighlights(args));
 
         // then
-    }
+    }*/
 
-    @Test
-    void shouldThrowExceptionIfArgsLenIsOne() {
+    /*@Test
+    void shouldThrowExceptionIfArgsLenThenOne() {
         // given
         final String[] args = new String[]{"./"};
 
@@ -28,15 +30,15 @@ class HighlightCollectorTest {
         assertThrows(IllegalArgumentException.class, () -> HighlightCollector.buildHighlights(args));
 
         // then
-    }
+    }*/
 
     @Test
-    void shouldConvertIncluded() {
+    void shouldCollectIncluded() {
         // given
         final String[] args = new String[]{"./", "keyword"};
 
         // when
-        final var highlights = HighlightCollector.buildHighlights(args);
+        final List<Highlight> highlights = HighlightCollector.buildHighlights(args);
 
         // then
         assertThat(highlights)
@@ -55,7 +57,7 @@ class HighlightCollectorTest {
         final String[] args = new String[]{"./", "!keyword"};
 
         // when
-        final var highlights = HighlightCollector.buildHighlights(args);
+        final List<Highlight> highlights = HighlightCollector.buildHighlights(args);
 
         // then
         assertThat(highlights)
@@ -69,12 +71,12 @@ class HighlightCollectorTest {
     }
 
     @Test
-    void shouldConvertIncludedAndExcluded() {
+    void shouldCollectIncludedAndExcluded() {
         // given
         final String[] args = new String[]{"./", "include", "!exclude"};
 
         // when
-        final var highlights = HighlightCollector.buildHighlights(args);
+        final List<Highlight> highlights = HighlightCollector.buildHighlights(args);
 
         // then
         assertThat(highlights).hasSize(2);

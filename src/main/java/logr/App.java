@@ -2,8 +2,11 @@ package logr;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +22,9 @@ public class App {
             if (args == null || args.length == 0) {
                 throw new IllegalArgumentException("First parameter (file mask) is missed");
             }
+            if (args.length < 2) {
+                throw new IllegalArgumentException("Please, define at least one keyword as a second parameter");
+            }
             process(args);
         } catch (final Throwable ex) {
             //            Logger.error(ErrorUtils.getMessage(ex));
@@ -33,6 +39,17 @@ public class App {
         log.info("Files: \"{}\"", files.stream().map(File::getName).collect(Collectors.joining(", ")));
 
         final List<Highlight> highlights = HighlightCollector.buildHighlights(args);
-        new FileProcessor(LOGGER).process(files, highlights);
+
+        final long start = System.currentTimeMillis();
+        final List<Pair<String, String>> lines = new FileProcessor(LOGGER).process(files, highlights);
+        final long end = System.currentTimeMillis();
+
+        final long total = lines.size();
+        LOGGER.summary(String.format("  Total: %s line(s) in %s file(s) in %s"
+                        , total
+                        , files.size()
+                        , Duration.of(end - start, ChronoUnit.MILLIS).toString().substring(2).replaceAll("(\\d[HMS])(?!$)", "$1 ").toLowerCase()
+                )
+        );
     }
 }
