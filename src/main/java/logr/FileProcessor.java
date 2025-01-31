@@ -34,15 +34,15 @@ public final class FileProcessor {
                     }
                     final List<FileRow> fileRows = fl.getLines();
 
-                    final Integer maxRowNumber = fileRows.stream().max(Comparator.comparing(FileRow::getOriginalRowNumber))
-                            .map(FileRow::getOriginalRowNumber)
+                    final Integer maxRowNumber = fileRows.stream().max(Comparator.comparing(FileRow::originalRowNumber))
+                            .map(FileRow::originalRowNumber)
                             .orElse(0);
 
                     logger.fileInfo(String.format("  %s (%s)", file.getAbsolutePath(), fileRows.size()));
                     return fileRows.stream()
                             .map(pair -> {
-                                final String rowNumber = formatRowNumber(pair.getOriginalRowNumber(), maxRowNumber);
-                                final String colorizedString = buildColorizedString(pair.getFragments());
+                                final String rowNumber = formatRowNumber(pair.originalRowNumber(), maxRowNumber);
+                                final String colorizedString = buildColorizedString(pair.fragments());
                                 return Pair.of(rowNumber, colorizedString);
                             })
                             .collect(Collectors.toList());

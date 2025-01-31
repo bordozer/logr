@@ -1,6 +1,5 @@
-package logr;
+package logr.utils;
 
-import logr.utils.FileUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

@@ -34,7 +34,7 @@ public final class LinesCollector {
         try (final var lines = Files.lines(Path.of(file.toURI()))) {
             final List<FileRow> result = lines.map(rawLine -> Fragmentator.process(rawLine, highlights, parameters))
                     .map(fragments -> new FileRow(counter.getAndIncrement(), fragments)) // before filter to get original row number
-                    .filter(row -> CollectionUtils.isNotEmpty(row.getFragments()))
+                    .filter(row -> CollectionUtils.isNotEmpty(row.fragments()))
                     .collect(Collectors.toList());
             return FileContainer.builder()
                     .file(file)

@@ -3,7 +3,7 @@ package logr;
 import logr.model.FileContainer;
 import logr.model.FileContainer.FileRow;
 import logr.model.Color;
-import logr.model.CommonUtils;
+import logr.utils.CommonUtils;
 import logr.model.Highlight;
 import logr.model.LineFragment;
 import logr.model.Parameters;
@@ -39,16 +39,16 @@ class LinesCollectorTest {
         assertThat(lines).hasSize(2);
 
         final FileRow row1 = lines.get(0);
-        assertThat(row1.getOriginalRowNumber()).isEqualTo(1);
-        final List<LineFragment> fragments1 = row1.getFragments();
+        assertThat(row1.originalRowNumber()).isEqualTo(1);
+        final List<LineFragment> fragments1 = row1.fragments();
         assertThat(fragments1).hasSize(3);
         assertThat(fragments1.get(0)).isEqualTo(LineFragment.of("one "));
         assertThat(fragments1.get(1)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
         assertThat(fragments1.get(2)).isEqualTo(LineFragment.of(" three"));
 
         final FileRow row2 = lines.get(1);
-        assertThat(row2.getOriginalRowNumber()).isEqualTo(2);
-        final List<LineFragment> fragments2 = row2.getFragments();
+        assertThat(row2.originalRowNumber()).isEqualTo(2);
+        final List<LineFragment> fragments2 = row2.fragments();
         assertThat(fragments2).hasSize(2);
         assertThat(fragments2.get(0)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
         assertThat(fragments2.get(1)).isEqualTo(LineFragment.of(" five"));
@@ -75,8 +75,8 @@ class LinesCollectorTest {
         assertThat(lines).hasSize(1);
 
         final FileRow row = lines.get(0);
-        assertThat(row.getOriginalRowNumber()).isEqualTo(3);
-        final List<LineFragment> fragments = row.getFragments();
+        assertThat(row.originalRowNumber()).isEqualTo(3);
+        final List<LineFragment> fragments = row.fragments();
         assertThat(fragments).hasSize(2);
         assertThat(fragments.get(0)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
         assertThat(fragments.get(1)).isEqualTo(LineFragment.of(" three"));
@@ -103,8 +103,8 @@ class LinesCollectorTest {
         assertThat(lines).hasSize(1);
 
         final FileRow row = lines.get(0);
-        assertThat(row.getOriginalRowNumber()).isEqualTo(1);
-        final List<LineFragment> fragments = row.getFragments();
+        assertThat(row.originalRowNumber()).isEqualTo(1);
+        final List<LineFragment> fragments = row.fragments();
         assertThat(fragments).hasSize(3);
         assertThat(fragments.get(0)).isEqualTo(LineFragment.of("Saving offer 100019500 event Øriggered, traceId=\""));
         assertThat(fragments.get(1)).isEqualTo(LineFragment.of("f36587a58cf2fd34").with(Color.YELLOW));

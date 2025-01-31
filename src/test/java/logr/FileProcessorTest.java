@@ -1,7 +1,7 @@
 package logr;
 
 import logr.model.Color;
-import logr.model.CommonUtils;
+import logr.utils.CommonUtils;
 import logr.model.Highlight;
 import logr.model.Parameters;
 import logr.utils.Logger;
