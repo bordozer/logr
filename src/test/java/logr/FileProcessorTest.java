@@ -215,4 +215,82 @@ class FileProcessorTest {
         assertThat(actual.get(6).getValue()).isEqualTo("Line 7 '\u001B[1;34memail\u001B[0m' exist");
         assertThat(actual.get(7).getValue()).isEqualTo("Line 8 \"\u001B[1;34mEmail\u001B[0m\" exist");
     }
+
+    @Test
+    void shouldProcessRespectCaseWordsOnlyWithExcluded() {
+        // given
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-10.log"));
+        final List<Highlight> highlights = newArrayList(
+                new Highlight("included", Color.BLUE),
+                new Highlight("excluded", true, null)
+        );
+        final Logger logger = mock(Logger.class);
+
+        final Parameters params = Parameters.builder()
+                .wordsOnly(true)
+                .caseSensitive(true)
+                .build();
+
+        // when
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
+
+        // then
+        assertThat(actual).hasSize(3);
+        assertThat(actual.get(0).getValue()).isEqualTo("Line 3 \u001B[1;34mincluded\u001B[0m Excluded");
+        assertThat(actual.get(1).getValue()).isEqualTo("Line 19 \u001B[1;34mincluded\u001B[0m Excludedin");
+        assertThat(actual.get(2).getValue()).isEqualTo("Line 21 \u001B[1;34mincluded\u001B[0m excludedin");
+    }
+
+    @Test
+    void shouldProcessRespectCaseWithExcluded() {
+        // given
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-10.log"));
+        final List<Highlight> highlights = newArrayList(
+                new Highlight("included", Color.BLUE),
+                new Highlight("excluded", true, null)
+        );
+        final Logger logger = mock(Logger.class);
+
+        final Parameters params = Parameters.builder()
+                .caseSensitive(true)
+                .build();
+
+        // when
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
+
+        // then
+        assertThat(actual).hasSize(7);
+        assertThat(actual.get(0).getValue()).isEqualTo("Line 3 \u001B[1;34mincluded\u001B[0m Excluded");
+        assertThat(actual.get(1).getValue()).isEqualTo("Line 6 \u001B[1;34mincluded\u001B[0mExcluded");
+        assertThat(actual.get(2).getValue()).isEqualTo("Line 10 \u001B[1;34mincluded\u001B[0min Excluded");
+        assertThat(actual.get(3).getValue()).isEqualTo("Line 12 \u001B[1;34mincluded\u001B[0min Excluded");
+        assertThat(actual.get(4).getValue()).isEqualTo("Line 14 \u001B[1;34mincluded\u001B[0min Excludedin");
+        assertThat(actual.get(5).getValue()).isEqualTo("Line 15 \u001B[1;34mincluded\u001B[0min Excludedin");
+        assertThat(actual.get(6).getValue()).isEqualTo("Line 19 \u001B[1;34mincluded\u001B[0m Excludedin");
+    }
+
+    @Test
+    void shouldProcessWordOnlyWithExcluded() {
+        // given
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-10.log"));
+        final List<Highlight> highlights = newArrayList(
+                new Highlight("included", Color.BLUE),
+                new Highlight("excluded", true, null)
+        );
+        final Logger logger = mock(Logger.class);
+
+        final Parameters params = Parameters.builder()
+                .wordsOnly(true)
+                .build();
+
+        // when
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
+
+        // then
+        assertThat(actual).hasSize(4);
+        assertThat(actual.get(0).getValue()).isEqualTo("Line 18 \u001B[1;34mIncluded\u001B[0m Excludedin");
+        assertThat(actual.get(1).getValue()).isEqualTo("Line 19 \u001B[1;34mincluded\u001B[0m Excludedin");
+        assertThat(actual.get(2).getValue()).isEqualTo("Line 20 \u001B[1;34mIncluded\u001B[0m excludedin");
+        assertThat(actual.get(3).getValue()).isEqualTo("Line 21 \u001B[1;34mincluded\u001B[0m excludedin");
+    }
 }
