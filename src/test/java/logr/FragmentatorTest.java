@@ -144,7 +144,7 @@ class FragmentatorTest {
     void shouldReturnColorized(final String line, final List<Highlight> highlights, final LineFragment[] expected) {
         // given
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(true)
+                .caseSensitive(true)
                 .build();
 
         // when

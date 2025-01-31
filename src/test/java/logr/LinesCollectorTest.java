@@ -18,7 +18,7 @@ class LinesCollectorTest {
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-2.txt"));
         final List<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW));
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(true)
+                .caseSensitive(true)
                 .build();
 
         // when
@@ -54,7 +54,7 @@ class LinesCollectorTest {
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-4.txt"));
         final List<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW), new Highlight("one", true, Color.YELLOW));
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(true)
+                .caseSensitive(true)
                 .build();
 
         // when
@@ -82,7 +82,7 @@ class LinesCollectorTest {
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-6.txt"));
         final List<Highlight> highlights = newArrayList(new Highlight("f36587a58cf2fd34", Color.YELLOW));
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(true)
+                .caseSensitive(true)
                 .build();
 
         // when

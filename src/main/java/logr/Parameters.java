@@ -11,9 +11,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Parameters {
     @Builder.Default
-    private final boolean isHelpRequire = false;
+    private final boolean helpRequire = false;
     @Builder.Default
-    private final boolean isCaseSensitive = false;
+    private final boolean caseSensitive = false;
+    @Builder.Default
+    private final boolean wordsOnly = false;
     @Builder.Default
     private final List<String> keywords = List.of();
 }

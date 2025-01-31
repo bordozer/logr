@@ -1,5 +1,6 @@
 package logr;
 
+import logr.utils.AppUtils;
 import logr.utils.ArgUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +22,34 @@ public class App {
         try {
             final Parameters parameters = ArgUtils.extractParameters(args, LOGGER);
             if (parameters.isHelpRequire()) {
-                LOGGER.info("Help me"); // TODO
+                LOGGER.info("Help:");
+                LOGGER.info("Keyword must have at least three characters");
+                LOGGER.info("Subfolders are ignored");
+                LOGGER.info("To exclude a keyword from search add \\! before it");
+                LOGGER.info("Search in file.txt for keyword 'text': \u001B[38;5;218mlogr file.txt text\u001B[0m");
+                LOGGER.info("Search in all files in the directory for keyword 'text': \u001B[38;5;218mlogr ./ text\u001B[0m");
+                LOGGER.info("Search in all files in the directory for keyword 'text with space': \u001B[38;5;218mlogr ./ \"text with space\"\u001B[0m");
+                LOGGER.info("Search in file.txt for keyword 'text1' and 'text2': \u001B[38;5;218mlogr file.txt text1 text2\u001B[0m");
+                LOGGER.info("Search in all files in the directory for keyword 'text' but if a row does not contain sibstring 'exluded': \u001B[38;5;218mlogr ./ text \\!exluded\u001B[0m");
+                LOGGER.info("Search in all files in the directory for keyword 'text' but if a row does not contain sibstrings 'exluded1' and 'exluded2': \u001B[38;5;218mlogr ./ text \\!exluded1 \\!exluded2\u001B[0m");
+                LOGGER.info("Search in all files in the directory if a row does not contain sibstrings 'exluded1' and 'exluded2': \u001B[38;5;218mlogr ./ \\!exluded1 text \\!exluded2\u001B[0m");
+
+
+                LOGGER.info("Search in file.txt for keyword 'text' with case respect: \u001B[38;5;218mlogr file.txt c text\u001B[0m");
+                LOGGER.info("Search in file.txt for word 'text': \u001B[38;5;218mlogr file.txt w text\u001B[0m");
+                LOGGER.info("Search in file.txt for word 'text' with case respect: \u001B[38;5;218mlogr file.txt cw text\u001B[0m");
                 System.exit(0);
+            }
+            if (parameters.isCaseSensitive()) {
+                LOGGER.info("\u001B[38;5;218mCase sensitive: true\u001B[0m");
+            }
+            if (parameters.isWordsOnly()) {
+                LOGGER.info("\u001B[38;5;218mWords only: true\u001B[0m");
             }
             process(args, parameters);
         } catch (final Throwable ex) {
             LOGGER.error(ErrorUtils.getStackTrace(ex));
-            System.exit(1);
+            AppUtils.exitApp(ex.getMessage());
         }
     }
 

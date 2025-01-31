@@ -20,7 +20,7 @@ class FileProcessorTest {
         final List<Highlight> highlights = newArrayList(new Highlight("two", Color.BLUE));
         final Logger logger = mock(Logger.class);
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(true)
+                .caseSensitive(true)
                 .build();
 
         // when
@@ -49,7 +49,7 @@ class FileProcessorTest {
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(false)
+                .caseSensitive(false)
                 .build();
 
         // when
@@ -83,7 +83,7 @@ class FileProcessorTest {
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(false)
+                .caseSensitive(false)
                 .build();
 
         // when
@@ -104,7 +104,7 @@ class FileProcessorTest {
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(true)
+                .caseSensitive(true)
                 .build();
 
         // when
@@ -130,7 +130,7 @@ class FileProcessorTest {
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(true)
+                .caseSensitive(true)
                 .build();
 
         // when
@@ -154,7 +154,7 @@ class FileProcessorTest {
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
-                .isCaseSensitive(true)
+                .caseSensitive(true)
                 .build();
 
         // when
@@ -165,5 +165,54 @@ class FileProcessorTest {
         assertThat(actual.get(0).getValue()).isEqualTo("Line 1 number one cuatomer\u001B[1;34mEmail\u001B[0m: qwert@domain.com");
         assertThat(actual.get(1).getValue()).isEqualTo("Line 4 number one cuatomer\u001B[1;34mEmail\u001B[0mWork: qwert@domain.com");
         assertThat(actual.get(2).getValue()).isEqualTo("Line 6 number two cuatomer \u001B[1;34mEmail\u001B[0m: qwert@domain.com");
+    }
+
+    @Test
+    void shouldProcessRespectCaseWordsOnly() {
+        // given
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-9.log"));
+        final List<Highlight> highlights = newArrayList(new Highlight("Email", Color.BLUE));
+        final Logger logger = mock(Logger.class);
+
+        final Parameters params = Parameters.builder()
+                .caseSensitive(true)
+                .wordsOnly(true)
+                .build();
+
+        // when
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
+
+        // then
+        assertThat(actual).hasSize(4);
+        assertThat(actual.get(0).getValue()).isEqualTo("Line 2 \u001B[1;34mEmail\u001B[0m");
+        assertThat(actual.get(1).getValue()).isEqualTo("Line 4 \u001B[1;34mEmail\u001B[0m exist");
+        assertThat(actual.get(2).getValue()).isEqualTo("Line 6 \"\u001B[1;34mEmail\u001B[0m\"");
+        assertThat(actual.get(3).getValue()).isEqualTo("Line 8 \"\u001B[1;34mEmail\u001B[0m\" exist");
+    }
+
+    @Test
+    void shouldProcessCaseIgnoreWordsOnly() {
+        // given
+        final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-9.log"));
+        final List<Highlight> highlights = newArrayList(new Highlight("EmaiL", Color.BLUE));
+        final Logger logger = mock(Logger.class);
+
+        final Parameters params = Parameters.builder()
+                .wordsOnly(true)
+                .build();
+
+        // when
+        final List<Pair<String, String>> actual = new FileProcessor(params, logger).process(files, highlights);
+
+        // then
+        assertThat(actual).hasSize(8);
+        assertThat(actual.get(0).getValue()).isEqualTo("Line 1 \u001B[1;34memail\u001B[0m");
+        assertThat(actual.get(1).getValue()).isEqualTo("Line 2 \u001B[1;34mEmail\u001B[0m");
+        assertThat(actual.get(2).getValue()).isEqualTo("Line 3 \u001B[1;34memail\u001B[0m exist");
+        assertThat(actual.get(3).getValue()).isEqualTo("Line 4 \u001B[1;34mEmail\u001B[0m exist");
+        assertThat(actual.get(4).getValue()).isEqualTo("Line 5 '\u001B[1;34memail\u001B[0m'");
+        assertThat(actual.get(5).getValue()).isEqualTo("Line 6 \"\u001B[1;34mEmail\u001B[0m\"");
+        assertThat(actual.get(6).getValue()).isEqualTo("Line 7 '\u001B[1;34memail\u001B[0m' exist");
+        assertThat(actual.get(7).getValue()).isEqualTo("Line 8 \"\u001B[1;34mEmail\u001B[0m\" exist");
     }
 }

@@ -14,6 +14,8 @@ public class StrUtils {
 
     private static final String CONTAINS_PATTERN = "((?<=[.*]?)|(?<=^))%s%s((?=[/*]?)|(?=$))";
     private static final String ENDS_WITH_PATTERN = "((?<=[.*]?)|(?<=^))%s%s((?=[\\n])|(?=$))";
+    private static final String ENDS_WITH_WORD_PATTERN = "((?<=[\\s:.,\"'])|(?<=^))(?i)%s%s((?=[\\n])|(?=$))";
+    private static final String WORD_PATTERN = "((?<=[\\s:.,\"'])|(?<=^))%s%s((?=[\\s:.,\"'])|(?=$))";
 
     public static String formatRowNumber(final Integer number, final Integer maxRowNumber) {
         final int numberLength = String.valueOf(number).length();
@@ -21,8 +23,9 @@ public class StrUtils {
         return String.format("%s%s", ".".repeat(maxLength - numberLength), number);
     }
 
-    public static Pair<List<String>, List<String>> splitIgnoreCase(final String text, final String separator, final boolean isCaseSensitive) {
-        final String pattern = pattern(CONTAINS_PATTERN, separator, isCaseSensitive);
+    public static Pair<List<String>, List<String>> splitIgnoreCase(final String text, final String separator, final boolean isCaseSensitive, final boolean isWordsOnly) {
+        final String template = isWordsOnly ? WORD_PATTERN : CONTAINS_PATTERN;
+        final String pattern = pattern(template, separator, isCaseSensitive);
         final List<String> collect = Pattern.compile(pattern).matcher(text).results()
                 .map(MatchResult::group)
                 .collect(Collectors.toList());
@@ -31,12 +34,14 @@ public class StrUtils {
         return Pair.of(list, collect);
     }
 
-    public static boolean isContains(final String text, final String substring, final boolean isCaseSensitive) {
-        return Pattern.compile(pattern(CONTAINS_PATTERN, substring, isCaseSensitive)).matcher(text).find();
+    public static boolean isContains(final String text, final String substring, final boolean isCaseSensitive, final boolean isWordsOnly) {
+        final String template = isWordsOnly ? WORD_PATTERN : CONTAINS_PATTERN;
+        return Pattern.compile(pattern(template, substring, isCaseSensitive)).matcher(text).find();
     }
 
-    public static boolean endsWith(final String text, final String substring, final boolean isCaseSensitive) {
-        return Pattern.compile(pattern(ENDS_WITH_PATTERN, substring, isCaseSensitive)).matcher(text).find();
+    public static boolean endsWith(final String text, final String substring, final boolean isCaseSensitive, final boolean isWordsOnly) {
+        final String template = isWordsOnly ? ENDS_WITH_WORD_PATTERN : ENDS_WITH_PATTERN;
+        return Pattern.compile(pattern(template, substring, isCaseSensitive)).matcher(text).find();
     }
 
     private static String pattern(final String pattern, final String separator, final boolean isCaseSensitive) {

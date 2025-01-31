@@ -23,12 +23,13 @@ public final class Fragmentator {
             return Collections.emptyList();
         }
         final boolean caseSensitive = parameters.isCaseSensitive();
+        final boolean isWordsOnly = parameters.isWordsOnly();
         // line should contain all included
-        if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !isContains(line, highlight.getKeyword(), caseSensitive))) {
+        if (highlights.stream().anyMatch(highlight -> !highlight.isExcluded() && !isContains(line, highlight.getKeyword(), caseSensitive, isWordsOnly))) {
             return Collections.emptyList();
         }
         // line should not contain excluded
-        if (highlights.stream().anyMatch(highlight -> highlight.isExcluded() && isContains(line, highlight.getKeyword(), caseSensitive))) {
+        if (highlights.stream().anyMatch(highlight -> highlight.isExcluded() && isContains(line, highlight.getKeyword(), caseSensitive, isWordsOnly))) {
             return Collections.emptyList();
         }
 
@@ -43,13 +44,13 @@ public final class Fragmentator {
                         }
 
                         final String keyword = highlight.getKeyword();
-                        if (!isContains(fragmentText, keyword, caseSensitive)) {
+                        if (!isContains(fragmentText, keyword, caseSensitive, isWordsOnly)) {
                             return Collections.singletonList(fragment);
                         }
 
                         @Nullable final Color color = highlight.getColor();
                         final List<LineFragment> subFragments = new ArrayList<>();
-                        final Pair<List<String>, List<String>> listListPair = splitIgnoreCase(fragmentText, keyword, caseSensitive);
+                        final Pair<List<String>, List<String>> listListPair = splitIgnoreCase(fragmentText, keyword, caseSensitive, isWordsOnly);
                         final List<String> subParts = listListPair.getKey();
                         final List<String> keywords = listListPair.getValue();
                         if (subParts.isEmpty()) {
@@ -66,7 +67,7 @@ public final class Fragmentator {
                                 subFragments.add(LineFragment.of(keywords.get(i)).with(color));
                             }
                         }
-                        if (endsWith(fragmentText, keyword, caseSensitive)) {
+                        if (endsWith(fragmentText, keyword, caseSensitive, isWordsOnly)) {
                             subFragments.add(LineFragment.of(keywords.get(keywords.size() - 1)).with(color));
                         }
 

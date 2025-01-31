@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ArgUtilsTest {
 
@@ -36,7 +37,10 @@ class ArgUtilsTest {
                 Arguments.of(null, List.of("keyword1"), false),
                 Arguments.of(null, List.of("keyword1", "keyword2"), false),
                 Arguments.of("c", List.of("keyword1"), true),
-                Arguments.of("c", List.of("keyword1", "keyword2"), true)
+                Arguments.of("c", List.of("keyword1", "keyword2"), true),
+                Arguments.of("c", List.of("keyword1", "keyword2"), true),
+                Arguments.of("cw", List.of("keyword1", "keyword2"), true),
+                Arguments.of("wc", List.of("keyword1", "keyword2"), true)
         );
     }
 
@@ -86,5 +90,49 @@ class ArgUtilsTest {
 
         // then
         assertThat(parameters.getKeywords()).isEqualTo(keywords);
+    }
+
+    @Test
+    void shouldThrowException1() {
+        // given
+        final String[] args = new String[]{"./"};
+
+        // when
+        assertThrows(RuntimeException.class, () -> ArgUtils.extractParameters(args, LOGGER));
+
+        // then
+    }
+
+    @Test
+    void shouldThrowException2() {
+        // given
+        final String[] args = new String[]{"/.", "c"};
+
+        // when
+        assertThrows(RuntimeException.class, () -> ArgUtils.extractParameters(args, LOGGER));
+
+        // then
+    }
+
+    @Test
+    void shouldThrowException3() {
+        // given
+        final String[] args = new String[]{"/.", "cw"};
+
+        // when
+        assertThrows(RuntimeException.class, () -> ArgUtils.extractParameters(args, LOGGER));
+
+        // then
+    }
+
+    @Test
+    void shouldThrowException4() {
+        // given
+        final String[] args = new String[]{"/.", "y", "keywords"};
+
+        // when
+        assertThrows(RuntimeException.class, () -> ArgUtils.extractParameters(args, LOGGER));
+
+        // then
     }
 }

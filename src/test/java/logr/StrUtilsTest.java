@@ -54,7 +54,7 @@ class StrUtilsTest {
         // given
 
         // when
-        final List<String> actual = StrUtils.splitIgnoreCase(text, splitter, isCase).getKey();
+        final List<String> actual = StrUtils.splitIgnoreCase(text, splitter, isCase, false).getKey();
 
         // then
         assertThat(actual).isEqualTo(expected);
