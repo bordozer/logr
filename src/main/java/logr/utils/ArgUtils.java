@@ -1,7 +1,6 @@
 package logr.utils;
 
-import logr.Logger;
-import logr.Parameters;
+import logr.model.Parameters;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;

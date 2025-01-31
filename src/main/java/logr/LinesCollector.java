@@ -1,6 +1,9 @@
 package logr;
 
-import logr.FileContainer.FileRow;
+import logr.model.FileContainer;
+import logr.model.FileContainer.FileRow;
+import logr.model.Highlight;
+import logr.model.Parameters;
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
 

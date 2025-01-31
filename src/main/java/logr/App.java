@@ -1,18 +1,19 @@
 package logr;
 
+import logr.model.Highlight;
+import logr.model.Parameters;
 import logr.utils.AppUtils;
 import logr.utils.ArgUtils;
+import logr.utils.Logger;
+import logr.utils.SearchFileByWildcard;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Slf4j
 public class App {
 
     private static final Logger LOGGER = new Logger();
@@ -48,20 +49,20 @@ public class App {
             }
             process(args, parameters);
         } catch (final Throwable ex) {
-            LOGGER.error(ErrorUtils.getStackTrace(ex));
-            AppUtils.exitApp(ex.getMessage());
+            LOGGER.error(ex.getMessage());
+            AppUtils.exitApp(ex);
         }
     }
 
     private static void process(final String[] args, final Parameters params) {
         final String mask = args[0];
-        final List<File> files = FileUtils.getFiles(mask);
-        log.info("Files: \"{}\"", files.stream().map(File::getName).collect(Collectors.joining(", ")));
+        final List<File> files = SearchFileByWildcard.searchWithWc(mask);
 
         final List<Highlight> highlights = HighlightCollector.buildHighlights(params.getKeywords());
 
         final long start = System.currentTimeMillis();
-        final List<Pair<String, String>> lines = new FileProcessor(params, LOGGER).process(files, highlights);
+        final FileProcessor processor = new FileProcessor(params, LOGGER);
+        final List<Pair<String, String>> lines = processor.process(files, highlights);
         lines.forEach(pair -> LOGGER.info(String.format("%s%s%s %s\n", Logger.ROW_NUMBER, pair.getKey(), Logger.RESET, pair.getValue())));
         final long end = System.currentTimeMillis();
 

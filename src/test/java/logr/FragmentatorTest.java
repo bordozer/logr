@@ -1,5 +1,9 @@
 package logr;
 
+import logr.model.Color;
+import logr.model.Highlight;
+import logr.model.LineFragment;
+import logr.model.Parameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

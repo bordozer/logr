@@ -1,6 +1,12 @@
 package logr;
 
-import logr.FileContainer.FileRow;
+import logr.model.FileContainer;
+import logr.model.FileContainer.FileRow;
+import logr.model.Color;
+import logr.model.CommonUtils;
+import logr.model.Highlight;
+import logr.model.LineFragment;
+import logr.model.Parameters;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

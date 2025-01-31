@@ -9,4 +9,9 @@ public class AppUtils {
 //        System.exit(1);
         throw new RuntimeException(message);
     }
+
+    public static void exitApp(final Throwable ex) {
+//        System.exit(1);
+        throw new RuntimeException(ex);
+    }
 }

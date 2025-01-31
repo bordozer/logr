@@ -1,5 +1,6 @@
-package logr;
+package logr.model;
 
+import logr.utils.Logger;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

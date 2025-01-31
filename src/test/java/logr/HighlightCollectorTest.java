@@ -1,10 +1,11 @@
 package logr;
 
+import logr.model.Highlight;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static logr.Color.PURPLE_BOLD_BRIGHT;
+import static logr.model.Color.PURPLE_BOLD_BRIGHT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

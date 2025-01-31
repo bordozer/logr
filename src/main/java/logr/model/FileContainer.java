@@ -1,4 +1,4 @@
-package logr;
+package logr.model;
 
 import lombok.Builder;
 import lombok.Getter;

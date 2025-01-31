@@ -1,5 +1,8 @@
 package logr;
 
+import logr.model.LineFragment;
+import logr.utils.Logger;
+
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,6 +1,9 @@
 package logr;
 
+import logr.utils.FileUtils;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,10 +12,10 @@ class FileUtilsTest {
     @Test
     void shouldReturnDir() {
         // given
-        final var mask = "/home/blu/temp/1";
+        final String mask = "/home/blu/temp/1";
 
         // when
-        final var dir = FileUtils.getDir(mask);
+        final File dir = FileUtils.getDir(mask);
 
         // then
         assertThat(dir.isDirectory()).isEqualTo(true);
@@ -22,10 +25,10 @@ class FileUtilsTest {
     @Test
     void shouldReturnDir2() {
         // given
-        final var mask = "/home/blu/temp/1/test";
+        final String mask = "/home/blu/temp/1/test";
 
         // when
-        final var dir = FileUtils.getDir(mask);
+        final File dir = FileUtils.getDir(mask);
 
         // then
         assertThat(dir.isDirectory()).isEqualTo(true);
@@ -35,10 +38,10 @@ class FileUtilsTest {
     @Test
     void shouldReturnDir4() {
         // given
-        final var mask = "test";
+        final String mask = "test";
 
         // when
-        final var dir = FileUtils.getDir(mask);
+        final File dir = FileUtils.getDir(mask);
 
         // then
         assertThat(dir.isDirectory()).isEqualTo(true);
@@ -48,10 +51,10 @@ class FileUtilsTest {
     @Test
     void shouldReturnDir3() {
         // given
-        final var mask = "/home/blu/temp/1/*.txt";
+        final String mask = "/home/blu/temp/1/*.txt";
 
         // when
-        final var dir = FileUtils.getDir(mask);
+        final File dir = FileUtils.getDir(mask);
 
         // then
         assertThat(dir.isDirectory()).isEqualTo(true);
@@ -61,10 +64,10 @@ class FileUtilsTest {
     @Test
     void shouldReturnMask() {
         // given
-        final var mask = "/home/blu/temp/1";
+        final String mask = "/home/blu/temp/1";
 
         // when
-        final var dir = FileUtils.getMask(mask);
+        final String dir = FileUtils.getMask(mask);
 
         // then
         assertThat(dir).isEqualTo("*");
@@ -73,10 +76,10 @@ class FileUtilsTest {
     @Test
     void shouldReturnMask2() {
         // given
-        final var mask = "/home/blu/temp/1/*.txt";
+        final String mask = "/home/blu/temp/1/*.txt";
 
         // when
-        final var dir = FileUtils.getMask(mask);
+        final String dir = FileUtils.getMask(mask);
 
         // then
         assertThat(dir).isEqualTo("*.txt");
@@ -85,10 +88,10 @@ class FileUtilsTest {
     @Test
     void shouldReturnMask3() {
         // given
-        final var mask = "/home/blu/temp/1/test";
+        final String mask = "/home/blu/temp/1/test";
 
         // when
-        final var dir = FileUtils.getMask(mask);
+        final String dir = FileUtils.getMask(mask);
 
         // then
         assertThat(dir).isEqualTo("test");

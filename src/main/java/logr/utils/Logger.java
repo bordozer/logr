@@ -1,4 +1,4 @@
-package logr;
+package logr.utils;
 
 public class Logger {
 

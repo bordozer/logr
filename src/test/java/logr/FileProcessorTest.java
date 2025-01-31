@@ -1,5 +1,10 @@
 package logr;
 
+import logr.model.Color;
+import logr.model.CommonUtils;
+import logr.model.Highlight;
+import logr.model.Parameters;
+import logr.utils.Logger;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,7 @@
 package logr;
 
+import logr.model.Color;
+import logr.model.LineFragment;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 

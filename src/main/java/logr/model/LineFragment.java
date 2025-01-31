@@ -1,4 +1,4 @@
-package logr;
+package logr.model;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 @Getter

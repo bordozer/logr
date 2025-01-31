@@ -1,6 +1,10 @@
 package logr;
 
-import logr.FileContainer.FileRow;
+import logr.model.FileContainer;
+import logr.model.FileContainer.FileRow;
+import logr.model.Highlight;
+import logr.model.Parameters;
+import logr.utils.Logger;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 

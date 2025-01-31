@@ -1,5 +1,9 @@
 package logr;
 
+import logr.model.Color;
+import logr.model.Highlight;
+import logr.model.LineFragment;
+import logr.model.Parameters;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;

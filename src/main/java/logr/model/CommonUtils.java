@@ -1,4 +1,4 @@
-package logr;
+package logr.model;
 
 import com.google.common.io.Resources;
 import lombok.SneakyThrows;

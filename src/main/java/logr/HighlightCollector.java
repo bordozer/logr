@@ -1,5 +1,8 @@
 package logr;
 
+import logr.model.Color;
+import logr.model.Highlight;
+
 import javax.annotation.CheckForNull;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
