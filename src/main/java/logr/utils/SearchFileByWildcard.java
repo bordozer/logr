@@ -41,6 +41,6 @@ public class SearchFileByWildcard {
             }
         };
         Files.walkFileTree(rootDir, matcherVisitor);
-        return matchesList;
+        return matchesList.stream().sorted().toList();
     }
 }
