@@ -32,10 +32,10 @@ public final class HighlightCollector {
     private static void validate(final List<Highlight> highlights) {
         final List<Highlight> included = highlights.stream()
                 .filter(Highlight::isExcluded)
-                .collect(Collectors.toList());
+                .toList();
         final List<Highlight> excluded = highlights.stream()
                 .filter(h -> !h.isExcluded())
-                .collect(Collectors.toList());
+                .toList();
 
         final boolean hasTheSameElement = included.stream()
                 .map(Highlight::getKeyword)
