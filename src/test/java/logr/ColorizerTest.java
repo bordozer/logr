@@ -29,7 +29,7 @@ class ColorizerTest {
     void shouldReturnColorized() {
         // given
         final List<LineFragment> fragments = new ArrayList<>();
-        fragments.add(LineFragment.of("one two").with(Color.CYAN));
+        fragments.add(LineFragment.of("one two").with(Color.CYAN_BOLD));
 
         // when
         final var actual = Colorizer.buildColorizedString(fragments);
@@ -42,9 +42,9 @@ class ColorizerTest {
     void shouldReturnColorized1() {
         // given
         final List<LineFragment> fragments = new ArrayList<>();
-        fragments.add(LineFragment.of("one two").with(Color.CYAN));
+        fragments.add(LineFragment.of("one two").with(Color.CYAN_BOLD));
         fragments.add(LineFragment.of("  three  "));
-        fragments.add(LineFragment.of("four").with(Color.GREEN));
+        fragments.add(LineFragment.of("four").with(Color.GREEN_BOLD));
 
         // when
         final var actual = Colorizer.buildColorizedString(fragments);

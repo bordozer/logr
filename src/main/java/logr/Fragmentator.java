@@ -79,7 +79,7 @@ public final class Fragmentator {
                     })
                     .filter(Objects::nonNull)
                     .flatMap(Collection::stream)
-                    .collect(Collectors.toList());
+                    .toList();
         }
         return fragments.stream()
                 .filter(frag -> StringUtils.isNotEmpty(frag.getText()))

@@ -34,108 +34,108 @@ class FragmentatorTest {
                 ),
                 Arguments.of(
                         "",
-                        newArrayList(new Highlight("one two", Color.CYAN), new Highlight("one", Color.PURPLE)),
+                        newArrayList(new Highlight("one two", Color.CYAN_BOLD), new Highlight("one", Color.MAGENTA_BOLD)),
                         EMPTY_LIST
                 ),
                 Arguments.of(
                         "one",
-                        newArrayList(new Highlight("one", Color.CYAN)),
+                        newArrayList(new Highlight("one", Color.CYAN_BOLD)),
                         new LineFragment[]{
-                                LineFragment.of("one").with(Color.CYAN)
+                                LineFragment.of("one").with(Color.CYAN_BOLD)
                         }
                 ),
                 Arguments.of(
                         "one two one three two one one two",
-                        newArrayList(new Highlight("one two", Color.CYAN), new Highlight("one", Color.PURPLE)),
+                        newArrayList(new Highlight("one two", Color.CYAN_BOLD), new Highlight("one", Color.MAGENTA_BOLD)),
                         new LineFragment[]{
-                                LineFragment.of("one two").with(Color.CYAN),
+                                LineFragment.of("one two").with(Color.CYAN_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("one").with(Color.PURPLE),
+                                LineFragment.of("one").with(Color.MAGENTA_BOLD),
                                 LineFragment.of(" three two "),
-                                LineFragment.of("one").with(Color.PURPLE),
+                                LineFragment.of("one").with(Color.MAGENTA_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("one two").with(Color.CYAN)
+                                LineFragment.of("one two").with(Color.CYAN_BOLD)
                         }
                 ),
                 Arguments.of(
                         "one two one three two one one two",
-                        newArrayList(new Highlight("one", Color.CYAN)),
+                        newArrayList(new Highlight("one", Color.CYAN_BOLD)),
                         new LineFragment[]{
-                                LineFragment.of("one").with(Color.CYAN),
+                                LineFragment.of("one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" two "),
-                                LineFragment.of("one").with(Color.CYAN),
+                                LineFragment.of("one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" three two "),
-                                LineFragment.of("one").with(Color.CYAN),
+                                LineFragment.of("one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("one").with(Color.CYAN),
+                                LineFragment.of("one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" two")
                         }
                 ),
                 Arguments.of(
                         "one two one three two one one two",
-                        newArrayList(new Highlight("one two one", Color.CYAN)),
+                        newArrayList(new Highlight("one two one", Color.CYAN_BOLD)),
                         new LineFragment[]{
-                                LineFragment.of("one two one").with(Color.CYAN),
+                                LineFragment.of("one two one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" three two one one two")
                         }
                 ),
                 Arguments.of(
                         "one two one three two one one two",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN), new Highlight("three", Color.CYAN)),
+                        newArrayList(new Highlight("one", Color.CYAN_BOLD), new Highlight("two", Color.CYAN_BOLD), new Highlight("three", Color.CYAN_BOLD)),
                         new LineFragment[]{
-                                LineFragment.of("one").with(Color.CYAN),
+                                LineFragment.of("one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("two").with(Color.CYAN),
+                                LineFragment.of("two").with(Color.CYAN_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("one").with(Color.CYAN),
+                                LineFragment.of("one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("three").with(Color.CYAN),
+                                LineFragment.of("three").with(Color.CYAN_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("two").with(Color.CYAN),
+                                LineFragment.of("two").with(Color.CYAN_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("one").with(Color.CYAN),
+                                LineFragment.of("one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("one").with(Color.CYAN),
+                                LineFragment.of("one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" "),
-                                LineFragment.of("two").with(Color.CYAN)
+                                LineFragment.of("two").with(Color.CYAN_BOLD)
                         }
                 ),
                 Arguments.of(
                         "one",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", Color.CYAN)),
+                        newArrayList(new Highlight("one", Color.CYAN_BOLD), new Highlight("two", Color.CYAN_BOLD)),
                         EMPTY_LIST
                 ),
                 Arguments.of(
                         "one two",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("two", true, Color.CYAN)),
+                        newArrayList(new Highlight("one", Color.CYAN_BOLD), new Highlight("two", true, Color.CYAN_BOLD)),
                         EMPTY_LIST
                 ),
                 Arguments.of(
                         "one two",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", Color.CYAN)),
+                        newArrayList(new Highlight("one", Color.CYAN_BOLD), new Highlight("one", Color.CYAN_BOLD)),
                         new LineFragment[]{
-                                LineFragment.of("one").with(Color.CYAN),
+                                LineFragment.of("one").with(Color.CYAN_BOLD),
                                 LineFragment.of(" two")
                         }
                 ),
                 Arguments.of(
                         "one",
-                        newArrayList(new Highlight("one", Color.CYAN)),
+                        newArrayList(new Highlight("one", Color.CYAN_BOLD)),
                         new LineFragment[]{
-                                LineFragment.of("one").with(Color.CYAN)
+                                LineFragment.of("one").with(Color.CYAN_BOLD)
                         }
                 ),
                 Arguments.of(
                         "one",
-                        newArrayList(new Highlight("one", Color.CYAN), new Highlight("one", true, Color.CYAN)),
+                        newArrayList(new Highlight("one", Color.CYAN_BOLD), new Highlight("one", true, Color.CYAN_BOLD)),
                         EMPTY_LIST
                 ),
                 Arguments.of(
                         "Saving offer 100019500 event Øriggered, traceId=\"f36587a58cf2fd34\"",
-                        newArrayList(new Highlight("f36587a58cf2fd34", Color.CYAN)),
+                        newArrayList(new Highlight("f36587a58cf2fd34", Color.CYAN_BOLD)),
                         new LineFragment[]{
                                 LineFragment.of("Saving offer 100019500 event Øriggered, traceId=\""),
-                                LineFragment.of("f36587a58cf2fd34").with(Color.CYAN),
+                                LineFragment.of("f36587a58cf2fd34").with(Color.CYAN_BOLD),
                                 LineFragment.of("\"")
                         }
                 )

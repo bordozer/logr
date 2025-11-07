@@ -1,11 +1,11 @@
 package logr;
 
+import logr.model.Color;
 import logr.model.Highlight;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static logr.model.Color.PURPLE_BOLD_BRIGHT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -47,7 +47,7 @@ class HighlightCollectorTest {
                 .first()
                 .satisfies(highlight -> {
                     assertThat(highlight.getKeyword()).isEqualTo("keyword");
-                    assertThat(highlight.getColor()).isEqualTo(PURPLE_BOLD_BRIGHT);
+                    assertThat(highlight.getColor()).isEqualTo(Color.YELLOW_BOLD_BRIGHT);
                     assertThat(highlight.isExcluded()).isEqualTo(false);
                 });
     }

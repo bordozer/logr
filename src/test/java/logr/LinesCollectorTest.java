@@ -22,7 +22,7 @@ class LinesCollectorTest {
     void shouldIgnoreStringsWithoutKeywords() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-2.txt"));
-        final List<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW));
+        final List<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW_BOLD));
         final Parameters params = Parameters.builder()
                 .caseSensitive(true)
                 .build();
@@ -43,14 +43,14 @@ class LinesCollectorTest {
         final List<LineFragment> fragments1 = row1.fragments();
         assertThat(fragments1).hasSize(3);
         assertThat(fragments1.get(0)).isEqualTo(LineFragment.of("one "));
-        assertThat(fragments1.get(1)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
+        assertThat(fragments1.get(1)).isEqualTo(LineFragment.of("two").with(Color.YELLOW_BOLD));
         assertThat(fragments1.get(2)).isEqualTo(LineFragment.of(" three"));
 
         final FileRow row2 = lines.get(1);
         assertThat(row2.originalRowNumber()).isEqualTo(2);
         final List<LineFragment> fragments2 = row2.fragments();
         assertThat(fragments2).hasSize(2);
-        assertThat(fragments2.get(0)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
+        assertThat(fragments2.get(0)).isEqualTo(LineFragment.of("two").with(Color.YELLOW_BOLD));
         assertThat(fragments2.get(1)).isEqualTo(LineFragment.of(" five"));
     }
 
@@ -58,7 +58,7 @@ class LinesCollectorTest {
     void shouldIgnoreExcludedStrings() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-4.txt"));
-        final List<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW), new Highlight("one", true, Color.YELLOW));
+        final List<Highlight> highlights = newArrayList(new Highlight("two", Color.YELLOW_BOLD), new Highlight("one", true, Color.YELLOW_BOLD));
         final Parameters params = Parameters.builder()
                 .caseSensitive(true)
                 .build();
@@ -78,7 +78,7 @@ class LinesCollectorTest {
         assertThat(row.originalRowNumber()).isEqualTo(3);
         final List<LineFragment> fragments = row.fragments();
         assertThat(fragments).hasSize(2);
-        assertThat(fragments.get(0)).isEqualTo(LineFragment.of("two").with(Color.YELLOW));
+        assertThat(fragments.get(0)).isEqualTo(LineFragment.of("two").with(Color.YELLOW_BOLD));
         assertThat(fragments.get(1)).isEqualTo(LineFragment.of(" three"));
     }
 
@@ -86,7 +86,7 @@ class LinesCollectorTest {
     void shouldProcessSpecialChars() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-6.txt"));
-        final List<Highlight> highlights = newArrayList(new Highlight("f36587a58cf2fd34", Color.YELLOW));
+        final List<Highlight> highlights = newArrayList(new Highlight("f36587a58cf2fd34", Color.YELLOW_BOLD));
         final Parameters params = Parameters.builder()
                 .caseSensitive(true)
                 .build();
@@ -107,6 +107,6 @@ class LinesCollectorTest {
         final List<LineFragment> fragments = row.fragments();
         assertThat(fragments).hasSize(3);
         assertThat(fragments.get(0)).isEqualTo(LineFragment.of("Saving offer 100019500 event Øriggered, traceId=\""));
-        assertThat(fragments.get(1)).isEqualTo(LineFragment.of("f36587a58cf2fd34").with(Color.YELLOW));
+        assertThat(fragments.get(1)).isEqualTo(LineFragment.of("f36587a58cf2fd34").with(Color.YELLOW_BOLD));
     }
 }

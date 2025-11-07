@@ -22,7 +22,7 @@ class FileProcessorTest {
     void shouldProcessFiles() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-5.txt"));
-        final List<Highlight> highlights = newArrayList(new Highlight("two", Color.BLUE));
+        final List<Highlight> highlights = newArrayList(new Highlight("two", Color.BLUE_BOLD));
         final Logger logger = mock(Logger.class);
         final Parameters params = Parameters.builder()
                 .caseSensitive(true)
@@ -50,7 +50,7 @@ class FileProcessorTest {
     void shouldProcessIgnoreCase1() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-7.log"));
-        final List<Highlight> highlights = newArrayList(new Highlight("email", Color.BLUE));
+        final List<Highlight> highlights = newArrayList(new Highlight("email", Color.BLUE_BOLD));
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
@@ -84,7 +84,7 @@ class FileProcessorTest {
     void shouldProcessIgnoreCase2() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-8.log"));
-        final List<Highlight> highlights = newArrayList(new Highlight("email", Color.BLUE));
+        final List<Highlight> highlights = newArrayList(new Highlight("email", Color.BLUE_BOLD));
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
@@ -105,7 +105,7 @@ class FileProcessorTest {
     void shouldProcessRespectCase1() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-7.log"));
-        final List<Highlight> highlights = newArrayList(new Highlight("email", Color.BLUE));
+        final List<Highlight> highlights = newArrayList(new Highlight("email", Color.BLUE_BOLD));
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
@@ -131,7 +131,7 @@ class FileProcessorTest {
     void shouldProcessRespectCase2() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-7.log"));
-        final List<Highlight> highlights = newArrayList(new Highlight("EMAIL", Color.BLUE));
+        final List<Highlight> highlights = newArrayList(new Highlight("EMAIL", Color.BLUE_BOLD));
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
@@ -155,7 +155,7 @@ class FileProcessorTest {
     void shouldProcessRespectCase3() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-7.log"));
-        final List<Highlight> highlights = newArrayList(new Highlight("Email", Color.BLUE));
+        final List<Highlight> highlights = newArrayList(new Highlight("Email", Color.BLUE_BOLD));
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
@@ -176,7 +176,7 @@ class FileProcessorTest {
     void shouldProcessRespectCaseWordsOnly() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-9.log"));
-        final List<Highlight> highlights = newArrayList(new Highlight("Email", Color.BLUE));
+        final List<Highlight> highlights = newArrayList(new Highlight("Email", Color.BLUE_BOLD));
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
@@ -199,7 +199,7 @@ class FileProcessorTest {
     void shouldProcessCaseIgnoreWordsOnly() {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-9.log"));
-        final List<Highlight> highlights = newArrayList(new Highlight("EmaiL", Color.BLUE));
+        final List<Highlight> highlights = newArrayList(new Highlight("EmaiL", Color.BLUE_BOLD));
         final Logger logger = mock(Logger.class);
 
         final Parameters params = Parameters.builder()
@@ -226,7 +226,7 @@ class FileProcessorTest {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-10.log"));
         final List<Highlight> highlights = newArrayList(
-                new Highlight("included", Color.BLUE),
+                new Highlight("included", Color.BLUE_BOLD),
                 new Highlight("excluded", true, null)
         );
         final Logger logger = mock(Logger.class);
@@ -251,7 +251,7 @@ class FileProcessorTest {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-10.log"));
         final List<Highlight> highlights = newArrayList(
-                new Highlight("included", Color.BLUE),
+                new Highlight("included", Color.BLUE_BOLD),
                 new Highlight("excluded", true, null)
         );
         final Logger logger = mock(Logger.class);
@@ -279,7 +279,7 @@ class FileProcessorTest {
         // given
         final List<File> files = Collections.singletonList(CommonUtils.readResourceFile("file-10.log"));
         final List<Highlight> highlights = newArrayList(
-                new Highlight("included", Color.BLUE),
+                new Highlight("included", Color.BLUE_BOLD),
                 new Highlight("excluded", true, null)
         );
         final Logger logger = mock(Logger.class);
