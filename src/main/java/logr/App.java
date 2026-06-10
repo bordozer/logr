@@ -2,6 +2,7 @@ package logr;
 
 import logr.model.Highlight;
 import logr.model.Parameters;
+import logr.model.SearchResults;
 import logr.utils.AppUtils;
 import logr.utils.ArgUtils;
 import logr.utils.Logger;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 
 public class App {
 
@@ -62,9 +64,16 @@ public class App {
 
         final long start = System.currentTimeMillis();
         final FileProcessor processor = new FileProcessor(params, LOGGER);
-        final List<Pair<String, String>> lines = processor.process(files, highlights);
-        lines.forEach(pair -> LOGGER.info(String.format("%s%s%s %s\n", Logger.ROW_NUMBER, pair.getKey(), Logger.RESET, pair.getValue())));
+
+        final SearchResults searchResults = processor.process(files, highlights);
+        final Map<String, Integer> processedFiles = searchResults.getProcessedFiles();
+
+        final List<Pair<String, String>> lines = searchResults.getLines();
+        lines.forEach(pair -> LOGGER.info(String.format("%s%s%s %s", Logger.ROW_NUMBER, pair.getKey(), Logger.RESET, pair.getValue())));
         final long end = System.currentTimeMillis();
+
+        processedFiles
+                .forEach((key, value) -> LOGGER.fileInfo(String.format("  %s (%s)", key, value)));
 
         final long total = lines.size();
         LOGGER.summary(String.format("  Total: %s line(s) in %s file(s) in %s"
